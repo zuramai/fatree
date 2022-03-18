@@ -1,0 +1,24 @@
+{
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "play:dev": "pnpm -C playground run dev -- --open",
+    "play:build": "pnpm -C playground run build",
+    "js:dev": "pnpm run -r --parallel --filter ./packages dev",
+    "js:build": "pnpm run -r --filter ./packages build",
+    "dev": "nr play:dev",
+    "build": "nr js:build",
+    "release": "bumpp package.json packages/*/package.json --tag --commit --push && pnpm -r publish --access public"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^0.18.8",
+    "@antfu/ni": "^0.13.2",
+    "bumpp": "^7.1.1",
+    "eslint": "^8.5.0",
+    "nanoevents": "^6.0.2",
+    "pnpm": "^6.32.3",
+    "sass": "^1.49.9",
+    "tsup": "^5.12.1",
+    "typescript": "~4.5.5"
+  }
+}

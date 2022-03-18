@@ -1,0 +1,29 @@
+{
+  "name": "fatree",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "unpkg": "dist/index.global.js",
+  "jsdelivr": "dist/index.global.js",
+  "funding": "https://github.com/sponsors/zuramai",
+  "author": "Ahmad Saugi <saugi.dev@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zuramai/fatree/issues"
+  },
+  "homepage": "https://github.com/zuramai/fatree#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zuramai/fatree.git"
+  },
+  "keywords": [],
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "nr build --watch",
+    "build": "tsup src/index.ts --format esm,cjs,iife --dts --no-splitting --clean --dts-resolve",
+    "prepublishOnly": "nr build"
+  }
+}

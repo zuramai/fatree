@@ -1,0 +1,19 @@
+{
+  "files": [],
+  "compilerOptions": {
+    "paths": {
+      "fatree": ["./packages/fatree/src/index.ts"]
+    }
+  },
+  "references": [
+    {
+      "path": "./playground/tsconfig.vite-config.json"
+    },
+    {
+      "path": "./playground/tsconfig.app.json"
+    },
+    {
+      "path": "./playground/tsconfig.vitest.json"
+    }
+  ]
+}
