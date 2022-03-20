@@ -1,7 +1,30 @@
 /*
 This files contains variables that will used in all Vue components.
+
+1. Colors
+2. Components
 */
 
+// Colors
+$primary                : #4D77FF;
+$secondary              : #456765;
 
+// Buttons 
+$btn-color              : transparent;
+$btn-sm-padding         : .3rem;
+$btn-md-padding         : .4rem .6rem;
+$btn-lg-padding         : .6rem .9rem;
+
+$btn-link-hover-color   : rgba(220,220,220,.3);
+$btn-link-active-color  : rgba(220,220,220,.7);
+
+
+// Sidebar
 $sidebar-bg             : white;
 $sidebar-border-side    : #ccc;
+
+// Links
+$link-color             : #333;
+$link-active             : #4D77FF;
+$link-hover             : #4D77FF;
+$link-visited             : #4D77FF;

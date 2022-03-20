@@ -1,6 +1,32 @@
+.sidebar__menu-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
+    &.icon-only {
+        .sidebar__link {
+            text-align: center;
+        }
+    }
+}
+
 .sidebar {
     background-color: $sidebar-bg;
     width: 3rem;
     border-right: 1px solid $sidebar-border-side;
     height: 100vh;
+    padding: .3rem;
+}
+
+.sidebar__menu {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
+
+    .sidebar__link {
+        padding: .3rem;
+        display: block;
+    }
 }

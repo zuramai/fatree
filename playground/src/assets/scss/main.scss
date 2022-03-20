@@ -1,1 +1,6 @@
-@import "./base/reset"
+// This file is for global applied css
+
+@import "./base/reset";
+
+@import "./components/buttons";
+@import "./components/icons";
