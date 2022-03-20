@@ -3,7 +3,7 @@
   "compilerOptions": {
     "paths": {
       "fatree": ["./packages/fatree/src/index.ts"]
-    }
+    },
   },
   "references": [
     {

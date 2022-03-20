@@ -13,12 +13,15 @@
   "devDependencies": {
     "@antfu/eslint-config": "^0.18.8",
     "@antfu/ni": "^0.13.2",
+    "@iconify-json/carbon": "^1.1.2",
+    "@vue/compiler-sfc": "^3.2.31",
     "bumpp": "^7.1.1",
     "eslint": "^8.5.0",
     "nanoevents": "^6.0.2",
     "pnpm": "^6.32.3",
     "sass": "^1.49.9",
     "tsup": "^5.12.1",
-    "typescript": "~4.5.5"
+    "typescript": "~4.5.5",
+    "unplugin-icons": "^0.13.4"
   }
 }
