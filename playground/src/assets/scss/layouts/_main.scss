@@ -1,0 +1,22 @@
+#page-wrapper {
+    display: flex;
+    flex-direction: row;
+
+    main {
+        flex: 1;
+    }
+}
+
+.container {
+    max-width: 100%;
+    padding: 0 1rem;
+    margin: 0 auto;
+
+
+    @each $width in $container-widths {
+        @media screen and (min-width: $width) {
+            max-width: $width;
+        }
+    }
+
+}

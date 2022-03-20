@@ -20,7 +20,7 @@ export default defineConfig({
           @use "@/assets/scss/abstracts/_animations.scss" as *;
           @use "@/assets/scss/abstracts/_variables.scss" as *;
           @use "@/assets/scss/abstracts/_mixins.scss" as *;
-          @use "@/assets/scss/abstracts/_helpers.scss" as *;
+          @use "@/assets/scss/helpers/_helpers.scss" as *;
         `
       }
     }

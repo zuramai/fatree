@@ -1,6 +1,11 @@
 // This file is for global applied css
 
 @import "./base/reset";
+@import "./base/typography";
+
+@import "./helpers/utilities";
+
+@import "./layouts/main";
 
 @import "./components/buttons";
 @import "./components/icons";

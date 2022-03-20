@@ -2,12 +2,29 @@
 This files contains variables that will used in all Vue components.
 
 1. Colors
+2. Typography
+3. Layouts
 2. Components
 */
 
 // Colors
 $primary                : #4D77FF;
 $secondary              : #456765;
+
+// Typography
+$font-family            : 'Inter';
+$text-base              : 1rem; 
+$text-lg                : 1.125rem;
+$text-xl                : 1.25rem;
+$text-2xl               : 1.5rem;
+$text-4xl               : 2.25rem;
+$text-color             : #444;
+$heading-color          : #232323;
+
+
+// Layouts
+$container-padding      : 0 1rem;
+$container-widths       : (640px,768px,1024px,1280px,1536px);
 
 // Buttons 
 $btn-color              : transparent;
