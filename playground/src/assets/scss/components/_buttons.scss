@@ -1,6 +1,24 @@
 .btn {
-    border-radius: .3rem;
     transition: all .1s;
+
+    &.btn--primary {
+        background-color: $primary;
+        padding: .3rem;
+        color: white;
+        &:hover {
+            background-color: darken($primary, 5%);
+        }
+    }
+    &.btn--sm {
+        @apply px-3 py-2;
+    }
+    &.btn--md {
+        @apply px-3 py-2;
+    }
+
+    svg {
+        display: inline;
+    }
 }
 .btn--link {
     background-color: transparent;
