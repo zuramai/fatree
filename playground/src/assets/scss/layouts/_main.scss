@@ -20,3 +20,15 @@
     }
 
 }
+
+.row {
+    display: flex;
+    flex-direction: row;
+    row-gap: 1rem;
+    flex-wrap: wrap;
+    padding: 1rem;
+
+    > * {
+        margin: 1rem;
+    }
+}

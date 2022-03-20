@@ -6,10 +6,10 @@ import Sidebar from "@/components/layouts/sidebar/Sidebar.vue"
 <template>
   <div id="page-wrapper">
     <aside>
-      <Sidebar/>
+      <sidebar/>
     </aside>
   
-    <RouterView />
+    <router-view />
   </div>
 </template>
 <style lang="scss">
