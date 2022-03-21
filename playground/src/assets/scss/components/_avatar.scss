@@ -1,0 +1,8 @@
+.avatar {
+    border-radius: 50%;
+    width: 2rem;
+    object-fit: cover;
+    height: 2rem;
+    @apply shadow-md;
+    
+}
