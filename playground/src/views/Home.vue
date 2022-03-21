@@ -11,13 +11,16 @@ let templates = [0,0,0,0,0,0,0,0]
       <h1 class="home__title mb-5 text-4xl">Create your own family tree, it's free!</h1>
       <p class="w-3/4 tracking-wide">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar congue rhoncus. Proin rhoncus justo porttitor tellus imperdiet, vitae tristique urna posuere. Sed eu interdum augue. </p>
 
-      <x-button class="mt-5 bg-gradient-to-r from-blue-500 to-indigo-500 shadow-lg hover:shadow-xl">
+      <!-- CTA: Create Button -->
+      <x-button :to="{ name: 'create' }" class="mt-5 bg-gradient-to-r from-blue-500 to-indigo-500 shadow-lg hover:shadow-xl">
         <template #icon>
           <icon-plus class="align-middle"/>
         </template>
         Create new
       </x-button>
+      <!-- End CTA -->
 
+      <!-- Template lists section -->
       <section class="choose-template mt-16">
         <h2 class="text-xl mb-5">Choose your template:</h2>
 

@@ -1,0 +1,12 @@
+.collapse {
+    border-bottom: 1px solid #dedede;
+    .collapse__title {
+        border-bottom: 1px solid #dedede;
+        padding: .3rem .7rem;
+        font-weight: 600;
+        font-size: 15px;
+    }
+    .collapse__content {
+        max-height: 500px;
+    }
+}

@@ -14,9 +14,16 @@
 .sidebar {
     background-color: $sidebar-bg;
     width: 3rem;
-    border-right: 1px solid $sidebar-border-side;
     height: 100vh;
-    padding: .3rem;
+
+    &.sidebar--small {
+        padding: .3rem;
+        border-right: 1px solid $sidebar-border-side;
+    }
+
+    &.sidebar--editor {
+        width: $sidebar-editor-width;
+    }
 }
 
 .sidebar__menu {
@@ -29,4 +36,8 @@
         padding: .4rem;
         display: block;
     }
+}
+
+.sidebar__create {
+    width: 300px;
 }

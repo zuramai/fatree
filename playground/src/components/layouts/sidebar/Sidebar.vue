@@ -8,7 +8,7 @@ import Logo from '../../images/Logo.vue'
 </script>
 
 <template>
-    <div class="sidebar">
+    <div class="sidebar sidebar--small">
         <div class="sidebar__menu-wrapper icon-only">
 
             <!-- Top menu: for logo placement -->
@@ -23,12 +23,12 @@ import Logo from '../../images/Logo.vue'
             <!-- Middle menu: the main menu -->
             <ul class="sidebar__menu">
                 <sidebar-item>
-                    <router-link  to="/" class="sidebar__link btn btn--link">
+                    <router-link :to="{ name: 'home' }" class="sidebar__link btn btn--link rounded-lg">
                         <icon-home/>
                     </router-link>
                 </sidebar-item>
                 <sidebar-item>
-                    <router-link  to="/" class="sidebar__link btn btn--link">
+                    <router-link :to="{ name:'create' }" class="sidebar__link btn btn--link rounded-lg">
                         <icon-add/>
                     </router-link>
                 </sidebar-item>
@@ -37,12 +37,12 @@ import Logo from '../../images/Logo.vue'
             <!-- Bottom menu: settings and user menu -->
             <ul class="sidebar__menu">
                 <sidebar-item>
-                    <router-link  to="/" class="sidebar__link btn btn--link">
+                    <router-link :to="{ name: 'settings' }" class="sidebar__link btn btn--link rounded-lg">
                         <icon-settings/>
                     </router-link>
                 </sidebar-item>
                 <sidebar-item>
-                    <router-link  to="/" class="sidebar__link btn btn--link">
+                    <router-link :to="{ name: 'user' }" class="sidebar__link btn btn--link rounded-lg">
                         <icon-user/>
                     </router-link>
                 </sidebar-item>
