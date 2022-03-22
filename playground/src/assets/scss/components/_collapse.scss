@@ -1,5 +1,10 @@
 .collapse {
     border-bottom: 1px solid #dedede;
+    &.collapse--open {
+        .collapse__title {
+            border-bottom: 1px solid #dedede;
+        }
+    }
     .collapse__title {
         padding: .3rem .7rem;
         font-weight: 600;

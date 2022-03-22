@@ -17,7 +17,7 @@ function toggleCollapse() {
 
 </script>
 <template>
-    <div class="collapse">
+    <div :class="{'collapse': true, 'collapse--open': isOpen}">
         <div class="collapse__title | flex justify-between items-center" @click="toggleCollapse">
             <span>{{ title }}</span>
             <component :is="isOpen ? IconChevronUp : IconChevronDown"/>
