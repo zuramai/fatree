@@ -2,11 +2,12 @@
 
 interface Props {
     size: "sm" | "md" | "lg" | "xl"
+    placeholder?:string
 }
 const props = defineProps<Props>()
 
 const sizes = {
-    "sm": "pl-8 pr-4 py-1",
+    "sm": "pl-6 pr-3 py-1 text-sm",
     "md": "pl-10 pr-4 py-2",
     "lg": "pl-12 pr-6 py-3",
     "xl": "pl-14 pr-7 py-4",
@@ -16,8 +17,9 @@ defineEmits(['update:modelValue'])
 </script>
 <template>
     <div class="form-group">
-        <div class="form-input | mx-5 mb-2 mt-3">
+        <div class="form-input ">
             <input type="text" 
+                :placeholder="placeholder"
                 :class="{'form__control | border-stone-300 border rounded-md w-full': true, [sizes[size]]: true}" 
                 @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
             <div class="input__icon">

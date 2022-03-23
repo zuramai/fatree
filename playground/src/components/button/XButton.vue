@@ -1,11 +1,20 @@
 <script setup lang="ts">
+
 const props = defineProps({
+    withIcon: {
+        type: Boolean,
+        default: false
+    },
     to: {
         default: null,
         type: [String, Object]  
     },
     color: {
         default: "primary",
+        type: String,
+    },
+    rounded: {
+        default: "md",
         type: String,
     },
     size: {
@@ -15,9 +24,10 @@ const props = defineProps({
 })
 
 let buttonClasses = {
-    "btn rounded-full inline-block": true,
+    "btn inline-block": true,
     ["btn--"+props.color]: true,
-    ["btn--"+props.size]: true
+    ["btn--"+props.size]: true,
+    [`rounded-${props.rounded}`]: true
 }
 
 let componentName = !!props.to ? "router-link" : "button"
@@ -25,8 +35,8 @@ let componentName = !!props.to ? "router-link" : "button"
 <template>
     <component :is="componentName" :to="to" :class="buttonClasses">
         <div class="flex items-center">
-            <slot name="icon" ></slot>
-            <span class="ml-2"><slot></slot></span>
+            <slot name="icon"></slot>
+            <span :class="{'ml-2': withIcon}"><slot></slot></span>
         </div>
     </component>
 </template>

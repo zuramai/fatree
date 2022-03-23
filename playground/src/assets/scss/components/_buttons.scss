@@ -1,19 +1,32 @@
 .btn {
     transition: all .1s;
+    padding: .3rem;
 
     &.btn--primary {
         background-color: $primary;
-        padding: .3rem;
         color: white;
         &:hover {
             background-color: darken($primary, 5%);
         }
+        &:active {
+            background-color: darken($primary, 10%);
+        }
+    }
+    &.btn--secondary {
+        background-color: $secondary;
+        color: white;
+        &:hover {
+            background-color: darken($secondary, 5%);
+        }
+        &:active {
+            background-color: darken($secondary, 10%);
+        }
     }
     &.btn--sm {
-        @apply px-3 py-2;
+        @apply px-2 py-1 text-sm;
     }
     &.btn--md {
-        @apply px-3 py-2;
+        @apply px-3 py-1 text-sm;
     }
 
     svg {

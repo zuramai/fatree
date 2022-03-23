@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import XCard from "../components/card/Card.vue";
-import XButton from "../components/button/Button.vue";
-import IconPlus from "~icons/carbon/add-alt"
+import XButton from "../components/button/XButton.vue";
 let templates = [0,0,0,0,0,0,0,0]
 </script>
 
@@ -12,9 +11,9 @@ let templates = [0,0,0,0,0,0,0,0]
       <p class="w-3/4 tracking-wide">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas pulvinar congue rhoncus. Proin rhoncus justo porttitor tellus imperdiet, vitae tristique urna posuere. Sed eu interdum augue. </p>
 
       <!-- CTA: Create Button -->
-      <x-button :to="{ name: 'create' }" class="mt-5 bg-gradient-to-r from-blue-500 to-indigo-500 shadow-lg hover:shadow-xl">
+      <x-button :to="{ name: 'create' }" rounded="full" :with-icon="true" class="mt-5 bg-gradient-to-r from-blue-500 to-indigo-500 shadow-lg hover:shadow-xl">
         <template #icon>
-          <icon-plus class="align-middle"/>
+          <icon-carbon-add-alt class="align-middle"/>
         </template>
         Create new
       </x-button>
