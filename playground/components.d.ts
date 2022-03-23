@@ -11,11 +11,19 @@ declare module 'vue' {
     Editor: typeof import('./src/components/editor/Editor.vue')['default']
     FamilyRow: typeof import('./src/components/family/FamilyRow.vue')['default']
     IconBiSearch: typeof import('~icons/bi/search')['default']
+    IconBiX: typeof import('~icons/bi/x')['default']
+    IconBiXLg: typeof import('~icons/bi/x-lg')['default']
+    IconCarbonAddAlt: typeof import('~icons/carbon/add-alt')['default']
+    IconCarbonPlus: typeof import('~icons/carbon/plus')['default']
+    IconCarbonX: typeof import('~icons/carbon/x')['default']
     Logo: typeof import('./src/components/images/Logo.vue')['default']
+    Modal: typeof import('./src/components/modal/Modal.vue')['default']
     Sidebar: typeof import('./src/components/layouts/sidebar/Sidebar.vue')['default']
     SidebarCreate: typeof import('./src/components/layouts/sidebar/SidebarCreate.vue')['default']
     SidebarItem: typeof import('./src/components/layouts/sidebar/SidebarItem.vue')['default']
+    XButton: typeof import('./src/components/button/XButton.vue')['default']
     XInput: typeof import('./src/components/forms/XInput.vue')['default']
+    XModal: typeof import('./src/components/modal/XModal.vue')['default']
   }
 }
 
