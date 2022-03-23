@@ -1,5 +1,7 @@
 import { fileURLToPath, URL } from 'url'
+import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
+import IconsResolver from 'unplugin-icons/resolver'
 
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
@@ -12,6 +14,14 @@ export default defineConfig({
       compiler: 'vue3',
       autoInstall: true,
     }),
+    Components({
+      resolvers: [
+        IconsResolver({
+          prefix: "icon",
+          enabledCollections: ['bi', 'carbon']
+        })
+      ]
+    })
   ],
   css: {
     preprocessorOptions: {

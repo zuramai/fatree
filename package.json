@@ -23,6 +23,7 @@
     "sass": "^1.49.9",
     "tsup": "^5.12.1",
     "typescript": "~4.5.5",
-    "unplugin-icons": "^0.13.4"
+    "unplugin-icons": "^0.13.4",
+    "unplugin-vue-components": "^0.18.3"
   }
 }
