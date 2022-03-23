@@ -1,19 +1,25 @@
 <script setup lang="ts">
 import IconChevronDown from "~icons/carbon/chevron-down"
 import IconChevronUp from "~icons/carbon/chevron-up"
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const props = defineProps({
     title: String,
+    open: Boolean
 })
-const emit = defineEmits(["click"])
 
 let isOpen = ref(false)
 
 function toggleCollapse() {
     isOpen.value = !isOpen.value
     emit("click")
-}
+}    
+onMounted(() => {
+    isOpen.value = props.open
+}) 
+const emit = defineEmits(["click"])
+
+
 
 </script>
 <template>
