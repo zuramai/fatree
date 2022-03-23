@@ -11,12 +11,15 @@ const sizes = {
     "lg": "pl-12 pr-6 py-3",
     "xl": "pl-14 pr-7 py-4",
 }
+defineEmits(['update:modelValue'])
 
 </script>
 <template>
     <div class="form-group">
         <div class="form-input | mx-5 mb-2 mt-3">
-            <input type="text" :class="{'form__control | border-stone-300 border rounded-md w-full': true, [sizes[size]]: true}">
+            <input type="text" 
+                :class="{'form__control | border-stone-300 border rounded-md w-full': true, [sizes[size]]: true}" 
+                @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)">
             <div class="input__icon">
                 <slot name="icon"></slot>
             </div>
