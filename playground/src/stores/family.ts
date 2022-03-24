@@ -4,7 +4,18 @@ import { acceptHMRUpdate, defineStore } from 'pinia'
 export const useFamilyStore = defineStore('family', {
     state: (): FamilyRootState => {
         return {
-            people: []
+            people: [],
+
+            // Default options
+            options: {
+                defaultStyles: {
+                    imageSize: {
+                        width: 100,
+                        height: 100
+                    },
+                    fontSize: 16
+                }
+            }
         }
     },
     getters: {
