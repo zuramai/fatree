@@ -13,13 +13,27 @@ const family = useFamilyStore()
 
 onBeforeMount(() => { 
     family.people = [{
-        name: "John Doe",
-        img: JohnDoeImg
-    },
-    {
         name: "Jane Doe",
-        img: JaneDoeImg
-    }]
+        img: JaneDoeImg,
+        position: {
+            x: 0,
+            y: 0
+        },
+        styles: {
+            imageSize: { width: 100, height:100 },
+        }
+    },{
+        name: "John Doe",
+        img: JohnDoeImg,
+        position: {
+            x: 300,
+            y: 300
+        },
+        styles: {
+            imageSize: { width: 100, height:100 },
+        }
+    },
+    ]
 })
 
 

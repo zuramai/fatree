@@ -5,6 +5,7 @@
 declare module 'vue' {
   export interface GlobalComponents {
     Avatar: typeof import('./src/components/avatar/Avatar.vue')['default']
+    BackgroundGrid: typeof import('./src/components/editor/BackgroundGrid.vue')['default']
     Button: typeof import('./src/components/button/Button.vue')['default']
     Card: typeof import('./src/components/card/Card.vue')['default']
     Collapse: typeof import('./src/components/collapse/Collapse.vue')['default']
@@ -24,6 +25,7 @@ declare module 'vue' {
     XButton: typeof import('./src/components/button/XButton.vue')['default']
     XInput: typeof import('./src/components/forms/XInput.vue')['default']
     XModal: typeof import('./src/components/modal/XModal.vue')['default']
+    XPerson: typeof import('./src/components/svg/XPerson.vue')['default']
   }
 }
 

@@ -14,7 +14,7 @@ const searchPerson = ref('')
 const filteredFamily = computed(() => family.filterPeople(searchPerson.value)) 
 
 
-const isModalAddOpen = ref(true)
+const isModalAddOpen = ref(false)
 const addPerson = reactive<Person>({
     name: '',
     img: ''
