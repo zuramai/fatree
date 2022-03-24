@@ -6,14 +6,30 @@ import XInput from "@/components/forms/XInput.vue"
 import { useFamilyStore } from "@/stores/family";
 import XButton from "../../button/XButton.vue";
 import XModal from "../../modal/XModal.vue";
-
-
+import type { Person } from "@/types/family";
+import { readImage } from "@/utils"
 
 const family = useFamilyStore()
 const searchPerson = ref('')
 const filteredFamily = computed(() => family.filterPeople(searchPerson.value)) 
 
+
 const isModalAddOpen = ref(true)
+const addPerson = reactive<Person>({
+    name: '',
+    img: ''
+})
+const executeAddPerson = () => {
+    isModalAddOpen.value = false 
+    console.log("added")
+    family.addPerson(addPerson)
+}
+
+const onAddImageChange = (files: FileList) => {
+    readImage(files)
+        .then(res => addPerson.img = (res as string))
+        .catch(err => console.log(err))
+}
 
 </script>
 <template>
@@ -23,7 +39,7 @@ const isModalAddOpen = ref(true)
             <div class="mx-5 flex items-center gap-2 my-3">
 
                 <!-- Search form -->
-                <x-input size="sm" v-model="searchPerson" placeholder="Search person..">
+                <x-input size="sm" v-model="searchPerson" :with-icon="true" placeholder="Search person..">
                     <template #icon>
                         <icon-bi-search/>
                     </template>
@@ -57,9 +73,17 @@ const isModalAddOpen = ref(true)
         <template #modal-header>
             Add person
         </template>        
+        <template #modal-body>
+            <x-input size="md" label="Name" v-model="addPerson.name"></x-input>
+            <x-input size="md" label="Photo" type="file" @change="onAddImageChange"></x-input>
+            <div v-if="addPerson.img" class="mt-2">
+                <p>Image preview:</p>
+                <img :src="addPerson.img" :alt="`Photo preview for ${addPerson.name}`" class="w-32 h-32">
+            </div>
+        </template>        
         <template #modal-footer>
             <div class="flex justify-end">
-                <x-button class="mr-2">Add</x-button>
+                <x-button class="mr-2" @click="executeAddPerson">Add</x-button>
                 <x-button color="secondary" @click="isModalAddOpen=false">Close</x-button>
             </div>
         </template>        
