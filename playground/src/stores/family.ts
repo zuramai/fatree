@@ -1,19 +1,20 @@
-import type { FamilyRootState, Person } from '@/types/family'
+import type { FamilyRootState, Person } from '@/@types/family'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
 export const useFamilyStore = defineStore('family', {
     state: (): FamilyRootState => {
         return {
             people: [],
-
+            relationships: [],
+            
             // Default options
             options: {
                 defaultStyles: {
                     imageSize: {
-                        width: 100,
-                        height: 100
+                        width: 75,
+                        height: 75
                     },
-                    fontSize: 16
+                    fontSize: 24
                 }
             }
         }
