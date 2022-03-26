@@ -10,6 +10,10 @@ export interface Size {
     height: number
 }
 
+export interface LineInterface {
+    
+}
+
 export interface EditorOptions {
     backgroundSrc?: string,
     defaultStyles: PersonStyles   

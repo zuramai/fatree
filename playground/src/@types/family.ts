@@ -26,10 +26,14 @@ export interface Person {
      * Individual image size, default is based on EditorOptions.imageSize
      */
     styles?: Partial<PersonStyles>
+}
 
+export interface Relationship {
+    
 }
 
 export interface FamilyRootState {
     people: Person[]
+    relationships: Relationship[]
     options: EditorOptions
 }

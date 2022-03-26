@@ -16,11 +16,11 @@ onBeforeMount(() => {
         name: "Jane Doe",
         img: JaneDoeImg,
         position: {
-            x: 0,
-            y: 0
+            x: 300,
+            y: 700
         },
         styles: {
-            imageSize: { width: 100, height:100 },
+            imageSize: { width: 75, height:75 },
         }
     },{
         name: "John Doe",
@@ -30,7 +30,7 @@ onBeforeMount(() => {
             y: 300
         },
         styles: {
-            imageSize: { width: 100, height:100 },
+            imageSize: { width: 75, height:75 },
         }
     },
     ]
