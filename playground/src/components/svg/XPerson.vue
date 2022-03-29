@@ -1,35 +1,59 @@
 <script setup lang="ts">
 import type { Coordinate } from '@/@types/editor';
 import type { Person } from '@/@types/family';
-import { getPersonStyles } from '@/utils/person';
-import { computed } from 'vue';
+import { computed, onMounted, reactive, ref, watch, type ComputedRef, type Ref } from 'vue';
+import { XPerson } from './XPerson';
+import type { Props } from "./XPerson"
 
-interface Props {
-    person: Person
-    id: number
-}
+const props = withDefaults(defineProps<Props>(), 
+    {
+        hoverColor: "rgba(0,0,0,.1)"
+    }
+);
 
-const props = defineProps<Props>()
-const styles = getPersonStyles(props.person)
+const xPerson = new XPerson(props)
+const positions = xPerson.positions
+const styles = xPerson.styles.value
 
-const namePosition: Coordinate = { 
-    ...props.person.position, 
-    y: props.person.position.y + props.person.styles!.imageSize!.height + styles.value.fontSize + 10// with padding
-}
 
 const onPersonClick = () => {
 
 }
 
+
+
+const personEl: Ref<SVGGraphicsElement|undefined> = ref()
+let bbox: Ref<Partial<DOMRect>> = ref<Partial<DOMRect>>({x: 0, y:0, width: 0, height: 0});
+
+
+onMounted(() => {
+    bbox.value = personEl.value!.getBBox()   
+    console.log(bbox) 
+    console.log(personEl.value)
+})
+const onMouseOver = (e: MouseEvent) => {
+    let el = e.target as SVGGraphicsElement
+    bbox.value = (personEl.value as SVGGraphicsElement).getBBox()
+
+    el.style.cursor = "pointer"
+}
+
 </script>
 <template>
-    <g class="person" @click="onPersonClick" >
+
+    <!-- The group of person's component -->
+    <g class="person" @click="onPersonClick" @mouseover="onMouseOver" ref="personEl" >
+        
+        <!-- A group dummy element for mouse event purpose -->
+        <rect :x="bbox.x" :y="bbox.y" :width="bbox.width" :height="bbox.height" fill="transparent"></rect>
+
         <defs>
             <clipPath :id="`person-image-${id}`">
                 <circle id='top' :cx="person.position.x" :cy="person.position.y" :r="styles.imageSize.width"/>
             </clipPath>
         </defs>
 
+        <!-- Image -->
         <g class="person-image">
             <image :clip-path="`url(#person-image-${id})`" 
                     :x="person.position.x - styles.imageSize.width" 
@@ -39,7 +63,17 @@ const onPersonClick = () => {
                     :xlink:href="person.img"
                     preserveAspectRatio="xMidYMid slice" ></image>
         </g>
-        <text :x="namePosition.x" :font-size="styles.fontSize" text-anchor="middle" :y="namePosition.y">{{ person.name }}</text>
+
+        <!-- Name -->
+        <text 
+            :x="positions.name?.value.x" 
+            :y="positions.name?.value.y" 
+            :font-size="styles.fontSize" 
+            text-anchor="middle">
+            {{ person.name }}
+        </text>
+
+        
         <g class="person-attribute">
             <text></text>
         </g>

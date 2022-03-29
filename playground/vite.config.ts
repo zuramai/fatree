@@ -2,7 +2,7 @@ import { fileURLToPath, URL } from 'url'
 import Components from 'unplugin-vue-components/vite'
 import Icons from 'unplugin-icons/vite'
 import IconsResolver from 'unplugin-icons/resolver'
-
+import VueTypeImports from 'vite-plugin-vue-type-imports'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 
@@ -10,6 +10,7 @@ import vue from '@vitejs/plugin-vue'
 export default defineConfig({
   plugins: [
     vue(),
+    VueTypeImports(),
     Icons({ 
       compiler: 'vue3',
       autoInstall: true,

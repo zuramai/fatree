@@ -18,6 +18,7 @@ importers:
       typescript: ~4.5.5
       unplugin-icons: ^0.13.4
       unplugin-vue-components: ^0.18.3
+      vite-plugin-vue-type-imports: ^0.1.3
     devDependencies:
       '@antfu/eslint-config': 0.18.8_eslint@8.11.0+typescript@4.5.5
       '@antfu/ni': 0.13.2
@@ -33,6 +34,7 @@ importers:
       typescript: 4.5.5
       unplugin-icons: 0.13.4_@vue+compiler-sfc@3.2.31
       unplugin-vue-components: 0.18.3
+      vite-plugin-vue-type-imports: 0.1.3_@vue+compiler-sfc@3.2.31
 
   packages/fatree:
     specifiers: {}
@@ -4963,6 +4965,15 @@ packages:
       assert-plus: 1.0.0
       core-util-is: 1.0.2
       extsprintf: 1.3.0
+    dev: true
+
+  /vite-plugin-vue-type-imports/0.1.3_@vue+compiler-sfc@3.2.31:
+    resolution: {integrity: sha512-iF5NgeQc2MZ6wDUS1tnN7rglkWmm+WhK9rCQb3FudsrMTqLazbtN6shyrEcsGBdqYAqH9c5HhiwU3gOIrFcVHA==}
+    peerDependencies:
+      '@vue/compiler-sfc': ^3.2.24
+      vue: ^3.2.24
+    dependencies:
+      '@vue/compiler-sfc': 3.2.31
     dev: true
 
   /vite/2.8.6_sass@1.49.9:

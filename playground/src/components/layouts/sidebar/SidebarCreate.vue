@@ -4,16 +4,14 @@ import { computed, reactive, ref } from "vue";
 import FamilyRow from "@/components/family/FamilyRow.vue";
 import XInput from "@/components/forms/XInput.vue"
 import { useFamilyStore } from "@/stores/family";
-import XButton from "../../button/XButton.vue";
-import XModal from "../../modal/XModal.vue";
+import XButton from "@/components/button/XButton.vue";
+import XModal from "@/components/modal/XModal.vue";
 import type { Person } from "@/@types/family";
 import { readImage } from "@/utils"
 
 const family = useFamilyStore()
 const searchPerson = ref('')
 const filteredFamily = computed(() => family.filterPeople(searchPerson.value)) 
-
-const modal = new XModal
 
 
 const isModalAddOpen = ref(false)

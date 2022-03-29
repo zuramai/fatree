@@ -3,6 +3,8 @@ import type { PersonStyles } from "./family"
 export interface Coordinate {
     x: number
     y: number
+    w?: number
+    h?: number
 }
 
 export interface Size {
