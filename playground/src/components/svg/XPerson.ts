@@ -1,7 +1,7 @@
-import type { Coordinate } from "@/@types/editor";
+import type { Coordinate, MouseEventType } from "@/@types/editor";
 import type { Person, PersonStyles } from "@/@types/family"
 import { useFamilyStore } from "@/stores/family"
-import { computed, type ComputedRef } from "vue";
+import { computed, reactive, ref, type ComputedRef, type Ref } from "vue";
 
 export interface Props {
     person: Person
@@ -19,12 +19,23 @@ export class XPerson {
     public props: Props
     public styles: ComputedRef<PersonStyles>
     public positions: ElementPositions
+    public svgStyles: Record<string, ComputedRef> = {
+        stroke: computed<string>(() => this.isHovered.value ? "#000" : "transparent"),
+        fill: computed<string>(() => this.isHovered.value ? "#eee" : "transparent")
+    }
+
+    public personEl: Ref<SVGGraphicsElement|undefined> = ref()
+    public bbox: Ref<Partial<DOMRect>> = ref<Partial<DOMRect>>({x: 0, y:0, width: 0, height: 0});
+
+    public isFocus: Ref<boolean> = ref(false)
+    public isHovered: Ref<boolean> = ref(false)
 
     constructor(props: Props) {
         this.family = useFamilyStore()
         this.props = props
         this.styles = this.initStyles()
         this.positions = this.initElementPositions()
+        
     }
 
     public initStyles(): ComputedRef<PersonStyles> {
@@ -57,5 +68,22 @@ export class XPerson {
                 y: this.props.person.position.y + this.props.person.styles!.imageSize!.height + this.styles.value.fontSize + 10// with padding
             }
         })
+    }
+
+    public onMouseEvent(eventType: MouseEventType, e: MouseEvent) {
+        let el = e.target as SVGGraphicsElement
+
+        if(eventType == 'mouseover') this.onMouseOver(e)
+        else if(eventType == 'mouseleave') this.onMouseLeave(e)
+
+        el.style.cursor = "pointer"
+    }
+
+    private onMouseOver(e: MouseEvent) {
+        this.isHovered.value = true
+        this.bbox.value = (this.personEl.value as SVGGraphicsElement).getBBox()
+    }
+    private onMouseLeave(e: MouseEvent) {
+        this.isHovered.value = false
     }
 }

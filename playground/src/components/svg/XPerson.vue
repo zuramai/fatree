@@ -11,41 +11,38 @@ const props = withDefaults(defineProps<Props>(),
     }
 );
 
+// Init xPerson instance
 const xPerson = new XPerson(props)
+
+const personEl: Ref<SVGGraphicsElement|undefined> = ref()
 const positions = xPerson.positions
 const styles = xPerson.styles.value
 
 
-const onPersonClick = () => {
-
-}
-
-
-
-const personEl: Ref<SVGGraphicsElement|undefined> = ref()
-let bbox: Ref<Partial<DOMRect>> = ref<Partial<DOMRect>>({x: 0, y:0, width: 0, height: 0});
-
-
 onMounted(() => {
-    bbox.value = personEl.value!.getBBox()   
-    console.log(bbox) 
-    console.log(personEl.value)
+    xPerson.personEl = personEl
+    xPerson.bbox.value = xPerson.personEl.value!.getBBox()   
 })
-const onMouseOver = (e: MouseEvent) => {
-    let el = e.target as SVGGraphicsElement
-    bbox.value = (personEl.value as SVGGraphicsElement).getBBox()
 
-    el.style.cursor = "pointer"
-}
+const onMouseOver = (e: MouseEvent) => xPerson.onMouseEvent("mouseover", e)
+const onMouseUp = (e: MouseEvent) => xPerson.onMouseEvent("mouseup", e)
+const onMouseClick = (e: MouseEvent) => xPerson.onMouseEvent("click", e)
+const onMouseLeave = (e: MouseEvent) => xPerson.onMouseEvent("mouseleave", e)
 
 </script>
 <template>
 
     <!-- The group of person's component -->
-    <g class="person" @click="onPersonClick" @mouseover="onMouseOver" ref="personEl" >
+    <g class="person" @click="onMouseClick" @mouseover="onMouseOver" @mouseleave="onMouseLeave" @mouseup="onMouseUp" ref="personEl" >
         
         <!-- A group dummy element for mouse event purpose -->
-        <rect :x="bbox.x" :y="bbox.y" :width="bbox.width" :height="bbox.height" fill="transparent"></rect>
+        <rect :x="xPerson.bbox.value.x" 
+            :y="xPerson.bbox.value.y" 
+            :width="xPerson.bbox.value.width" 
+            :height="xPerson.bbox.value.height" 
+            fill="transparent"
+            :stroke="xPerson.svgStyles.stroke.value">
+        </rect>
 
         <defs>
             <clipPath :id="`person-image-${id}`">
