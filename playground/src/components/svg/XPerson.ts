@@ -19,16 +19,17 @@ export class XPerson {
     public props: Props
     public styles: ComputedRef<PersonStyles>
     public positions: ElementPositions
-    public svgStyles: Record<string, ComputedRef> = {
-        stroke: computed<string>(() => this.isHovered.value ? "#000" : "transparent"),
-        fill: computed<string>(() => this.isHovered.value ? "#eee" : "transparent")
-    }
+    public svgStyles = computed(() => ({
+        stroke: this.isHovered.value ? "#000" : "transparent",
+        fill: this.isHovered.value ? "#eee" : "transparent"
+    }))
 
     public personEl: Ref<SVGGraphicsElement|undefined> = ref()
     public bbox: Ref<Partial<DOMRect>> = ref<Partial<DOMRect>>({x: 0, y:0, width: 0, height: 0});
 
     public isFocus: Ref<boolean> = ref(false)
     public isHovered: Ref<boolean> = ref(false)
+    public isHolding: Ref<boolean> = ref(false)
 
     constructor(props: Props) {
         this.family = useFamilyStore()

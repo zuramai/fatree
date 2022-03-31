@@ -41,7 +41,7 @@ const onMouseLeave = (e: MouseEvent) => xPerson.onMouseEvent("mouseleave", e)
             :width="xPerson.bbox.value.width" 
             :height="xPerson.bbox.value.height" 
             fill="transparent"
-            :stroke="xPerson.svgStyles.stroke.value">
+            :stroke="xPerson.svgStyles.value.stroke">
         </rect>
 
         <defs>
