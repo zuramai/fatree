@@ -1,7 +1,8 @@
-import type { Coordinate, MouseEventType } from "@/@types/editor";
+import type { Coordinate, MouseEventArgs, MouseEventType } from "@/@types/editor";
 import type { Person, PersonStyles } from "@/@types/family"
 import { useFamilyStore } from "@/stores/family"
 import { computed, reactive, ref, type ComputedRef, type Ref } from "vue";
+import { XComponent } from "./XComponent";
 
 export interface Props {
     person: Person
@@ -14,7 +15,7 @@ export interface ElementPositions {
     name?: ComputedRef<Coordinate>
 }
 
-export class XPerson {
+export class XPerson extends XComponent {
     public family
     public props: Props
     public styles: ComputedRef<PersonStyles>
@@ -27,16 +28,22 @@ export class XPerson {
     public personEl: Ref<SVGGraphicsElement|undefined> = ref()
     public bbox: Ref<Partial<DOMRect>> = ref<Partial<DOMRect>>({x: 0, y:0, width: 0, height: 0});
 
-    public isFocus: Ref<boolean> = ref(false)
-    public isHovered: Ref<boolean> = ref(false)
-    public isHolding: Ref<boolean> = ref(false)
+    private mouseEventMap: {[key in MouseEventType]: (e: MouseEvent, args: MouseEventArgs) => void} = {
+        "click": this.onMouseClick,
+        "mouseover": this.onMouseOver,
+        "mouseup": this.onMouseUp,
+        "mouseleave": this.onMouseLeave,
+        "mouseenter": this.onMouseEnter,
+        "mousedown": this.onMouseDown,
+    }
 
     constructor(props: Props) {
+        super()
+
         this.family = useFamilyStore()
         this.props = props
         this.styles = this.initStyles()
         this.positions = this.initElementPositions()
-        
     }
 
     public initStyles(): ComputedRef<PersonStyles> {
@@ -71,20 +78,40 @@ export class XPerson {
         })
     }
 
-    public onMouseEvent(eventType: MouseEventType, e: MouseEvent) {
+    public onMouseEvent(eventType: MouseEventType, e: MouseEvent, args: MouseEventArgs) {
         let el = e.target as SVGGraphicsElement
-
-        if(eventType == 'mouseover') this.onMouseOver(e)
-        else if(eventType == 'mouseleave') this.onMouseLeave(e)
+        console.log(eventType)
+        this.mouseEventMap[eventType].bind(this)(e, args)
 
         el.style.cursor = "pointer"
     }
 
-    private onMouseOver(e: MouseEvent) {
+    private onMouseOver(e: MouseEvent, args: MouseEventArgs) {
+    }
+    
+    private onMouseDown(e: MouseEvent, args: MouseEventArgs) {
+        this.isHolding.value = true
+        this.holdingFrom = args.mousePosition
+
+        console.log("holding from ", this.holdingFrom.value);
+        
+    }
+    
+    private onMouseClick(e: MouseEvent, args: MouseEventArgs) {
+    }
+
+    private onMouseUp(e: MouseEvent, args: MouseEventArgs) {
+        this.isHolding.value = false
+    }
+
+    private onMouseEnter(e: MouseEvent, args: MouseEventArgs) {
+        console.log("mouseentersasdasds");
+        
         this.isHovered.value = true
         this.bbox.value = (this.personEl.value as SVGGraphicsElement).getBBox()
     }
-    private onMouseLeave(e: MouseEvent) {
+
+    private onMouseLeave(e: MouseEvent, args: MouseEventArgs) {
         this.isHovered.value = false
     }
 }

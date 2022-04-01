@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { Coordinate } from '@/@types/editor';
+import type { Coordinate, MouseEventType } from '@/@types/editor';
 import type { Person } from '@/@types/family';
-import { computed, onMounted, reactive, ref, watch, type ComputedRef, type Ref } from 'vue';
+import { computed, inject, onMounted, reactive, ref, watch, type ComputedRef, type Ref } from 'vue';
 import { XPerson } from './XPerson';
 import type { Props } from "./XPerson"
 
@@ -10,6 +10,8 @@ const props = withDefaults(defineProps<Props>(),
         hoverColor: "rgba(0,0,0,.1)"
     }
 );
+
+const mousePosition = inject<Ref<Coordinate>>("svgMousePosition")
 
 // Init xPerson instance
 const xPerson = new XPerson(props)
@@ -24,16 +26,21 @@ onMounted(() => {
     xPerson.bbox.value = xPerson.personEl.value!.getBBox()   
 })
 
-const onMouseOver = (e: MouseEvent) => xPerson.onMouseEvent("mouseover", e)
-const onMouseUp = (e: MouseEvent) => xPerson.onMouseEvent("mouseup", e)
-const onMouseClick = (e: MouseEvent) => xPerson.onMouseEvent("click", e)
-const onMouseLeave = (e: MouseEvent) => xPerson.onMouseEvent("mouseleave", e)
+// Events
+const mouseEvent = (e: MouseEvent, name: MouseEventType) => xPerson.onMouseEvent(name, e, { mousePosition: mousePosition! })
 
 </script>
 <template>
 
     <!-- The group of person's component -->
-    <g class="person" @click="onMouseClick" @mouseover="onMouseOver" @mouseleave="onMouseLeave" @mouseup="onMouseUp" ref="personEl" >
+    <g class="person" 
+        @click="e => mouseEvent(e, 'click')" 
+        @mouseover="e => mouseEvent(e, 'mouseover')" 
+        @mouseleave="e => mouseEvent(e, 'mouseleave')" 
+        @mouseup="e => mouseEvent(e, 'mouseup')" 
+        @mouseenter="e => mouseEvent(e, 'mouseenter')"
+        @mousedown="e => mouseEvent(e, 'mousedown')"
+        ref="personEl">
         
         <!-- A group dummy element for mouse event purpose -->
         <rect :x="xPerson.bbox.value.x" 

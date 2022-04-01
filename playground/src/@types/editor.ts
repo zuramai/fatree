@@ -1,6 +1,7 @@
+import type { Ref } from "vue"
 import type { PersonStyles } from "./family"
 
-export type MouseEventType = "click" | "mouseover" | "mousedown" | "mouseup" | "mouseleave"
+export type MouseEventType = "click" | "mouseover" | "mousedown" | "mouseup" | "mouseleave" | "mouseenter"
 export type KeyboardEventType = "keydown" | "keyup" | "keypress"
 
 export interface Coordinate {
@@ -22,4 +23,8 @@ export interface LineInterface {
 export interface EditorOptions {
     backgroundSrc?: string,
     defaultStyles: PersonStyles   
+}
+
+export interface MouseEventArgs {
+    mousePosition: Ref<Coordinate>
 }
