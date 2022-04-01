@@ -13,8 +13,11 @@ const props = withDefaults(defineProps<Props>(),
 
 const mousePosition = inject<Ref<Coordinate>>("svgMousePosition")
 
+
 // Init xPerson instance
 const xPerson = new XPerson(props)
+const emit = defineEmits(["move"])
+xPerson.$emit = emit
 
 const personEl: Ref<SVGGraphicsElement|undefined> = ref()
 const positions = xPerson.positions
@@ -27,7 +30,9 @@ onMounted(() => {
 })
 
 // Events
-const mouseEvent = (e: MouseEvent, name: MouseEventType) => xPerson.onMouseEvent(name, e, { mousePosition: mousePosition! })
+const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
+  xPerson.onMouseEvent(name, e, { mousePosition: mousePosition! })  
+} 
 
 </script>
 <template>
@@ -38,6 +43,7 @@ const mouseEvent = (e: MouseEvent, name: MouseEventType) => xPerson.onMouseEvent
         @mouseover="e => mouseEvent(e, 'mouseover')" 
         @mouseleave="e => mouseEvent(e, 'mouseleave')" 
         @mouseup="e => mouseEvent(e, 'mouseup')" 
+        @mousemove="e => mouseEvent(e, 'mousemove')" 
         @mouseenter="e => mouseEvent(e, 'mouseenter')"
         @mousedown="e => mouseEvent(e, 'mousedown')"
         ref="personEl">
@@ -60,18 +66,18 @@ const mouseEvent = (e: MouseEvent, name: MouseEventType) => xPerson.onMouseEvent
         <!-- Image -->
         <g class="person-image">
             <image :clip-path="`url(#person-image-${id})`" 
-                    :x="person.position.x - styles.imageSize.width" 
-                    :y="person.position.y - styles.imageSize.height" 
-                    :width="styles.imageSize.width * 2"
-                    :height="styles.imageSize.height * 2" 
+                    :x="positions.image.x" 
+                    :y="positions.image.y" 
+                    :width="positions.image.w"
+                    :height="positions.image.h" 
                     :xlink:href="person.img"
                     preserveAspectRatio="xMidYMid slice" ></image>
         </g>
 
         <!-- Name -->
         <text 
-            :x="positions.name?.value.x" 
-            :y="positions.name?.value.y" 
+            :x="positions.name.x" 
+            :y="positions.name.y" 
             :font-size="styles.fontSize" 
             text-anchor="middle">
             {{ person.name }}

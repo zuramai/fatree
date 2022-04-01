@@ -13,14 +13,26 @@ const svgMousePosition = ref<Coordinate>()
 provide("svg", svg)
 provide("svgMousePosition", svgMousePosition)
 
-
-function onClick(e: MouseEvent) {
-  const domPoint = new DOMPointReadOnly(e.clientX, e.clientY)
+function calculateMousePosition(x: number, y: number): void {
+  const domPoint = new DOMPointReadOnly(x, y)
   const pt = domPoint.matrixTransform(svg.value.getScreenCTM().inverse())
   svgMousePosition.value = { x: pt.x, y: pt.y }
-  console.log(svgMousePosition.value);
-  
 }
+
+function onClick(e: MouseEvent) {
+  calculateMousePosition(e.clientX, e.clientY)
+  console.log(svgMousePosition.value);
+}
+
+function onMouseMove(e: MouseEvent) {
+  calculateMousePosition(e.clientX, e.clientY)
+}
+
+function movePerson(i: number, position: Coordinate) {
+    console.log("MOVED", position)
+   family.movePerson(i, position)
+}
+
 </script>
 <template>
   <div class="editor-area">
@@ -29,9 +41,15 @@ function onClick(e: MouseEvent) {
         width="100%" 
         height="100%" 
         xmlns="http://www.w3.org/2000/svg" 
-        @click="onClick">
+        @click="onClick"
+        @mousemove="onMouseMove">
       <background-grid></background-grid>
-      <x-person v-for="(person, i) in family.people" :person="person" :id="i"></x-person>
+      <x-person 
+          v-for="(person, i) in family.people" 
+          :person="person" 
+          :id="i"
+          @move="(position: Coordinate) => movePerson(i, position)">
+      </x-person>
     </svg>
   </div>
 </template>

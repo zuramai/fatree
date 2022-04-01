@@ -1,7 +1,7 @@
 import type { Ref } from "vue"
 import type { PersonStyles } from "./family"
 
-export type MouseEventType = "click" | "mouseover" | "mousedown" | "mouseup" | "mouseleave" | "mouseenter"
+export type MouseEventType = "click" | "mouseover" | "mousemove" | "mousedown" | "mouseup" | "mouseleave" | "mouseenter"
 export type KeyboardEventType = "keydown" | "keyup" | "keypress"
 
 export interface Coordinate {

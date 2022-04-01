@@ -1,3 +1,4 @@
+import type { Coordinate } from '@/@types/editor'
 import type { FamilyRootState, Person } from '@/@types/family'
 import { acceptHMRUpdate, defineStore } from 'pinia'
 
@@ -34,6 +35,9 @@ export const useFamilyStore = defineStore('family', {
         },
         removePerson(person: Person) {
             this.people.splice(this.people.indexOf(person), 1)
+        },
+        movePerson(i: number, position: Coordinate) {
+            this.people[i].position = position
         }
     }
 })

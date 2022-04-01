@@ -11,8 +11,8 @@ export interface Props {
 }
 
 export interface ElementPositions {
-    image?: ComputedRef<Coordinate>
-    name?: ComputedRef<Coordinate>
+    image: Coordinate
+    name: Coordinate
 }
 
 export class XPerson extends XComponent {
@@ -24,7 +24,8 @@ export class XPerson extends XComponent {
         stroke: this.isHovered.value ? "#000" : "transparent",
         fill: this.isHovered.value ? "#eee" : "transparent"
     }))
-
+    public $emit: any
+    
     public personEl: Ref<SVGGraphicsElement|undefined> = ref()
     public bbox: Ref<Partial<DOMRect>> = ref<Partial<DOMRect>>({x: 0, y:0, width: 0, height: 0});
 
@@ -32,6 +33,7 @@ export class XPerson extends XComponent {
         "click": this.onMouseClick,
         "mouseover": this.onMouseOver,
         "mouseup": this.onMouseUp,
+        "mousemove": this.onMouseMove,
         "mouseleave": this.onMouseLeave,
         "mouseenter": this.onMouseEnter,
         "mousedown": this.onMouseDown,
@@ -50,23 +52,20 @@ export class XPerson extends XComponent {
         return computed(() => Object.assign(this.family.options.defaultStyles, this.props.person.styles))
     }
 
-    public initElementPositions(): ElementPositions {
-        return {
-            image: computed(() => {
-                return {
+    public initElementPositions() {
+        return reactive<ElementPositions>({
+            image: {
                     x: this.props.person.position.x - this.styles.value.imageSize.width,
                     y: this.props.person.position.y - this.styles.value.imageSize.height,
-                    width: this.styles.value.imageSize.width * 2,
-                    height: this.styles.value.imageSize.height * 2,
-                }
-            }),
-            name: computed<Coordinate>(() => {
-                return {
+                    w: this.styles.value.imageSize.width * 2,
+                    h: this.styles.value.imageSize.height * 2,
+            },
+            name: {
                     ...this.props.person.position, 
                     y: this.props.person.position.y + this.props.person.styles!.imageSize!.height + this.styles.value.fontSize + 10// with padding
                 }
-            })
-        }
+            
+        })
     }
 
     public getNamePosition() {
@@ -88,13 +87,26 @@ export class XPerson extends XComponent {
 
     private onMouseOver(e: MouseEvent, args: MouseEventArgs) {
     }
+
+    private onMouseMove(e: MouseEvent, args: MouseEventArgs) {
+        if(this.isHolding.value) {
+            let oldLoc = this.holdingFrom.value
+            let newLoc = args.mousePosition.value
+
+            let newLocation: Coordinate = { 
+                x: this.props.person.position.x + (newLoc.x - oldLoc.x),
+                y: this.props.person.position.y + (newLoc.y - oldLoc.y)
+            }
+            
+            this.$emit("move", newLocation)
+        }
+    }
     
     private onMouseDown(e: MouseEvent, args: MouseEventArgs) {
         this.isHolding.value = true
         this.holdingFrom = args.mousePosition
 
         console.log("holding from ", this.holdingFrom.value);
-        
     }
     
     private onMouseClick(e: MouseEvent, args: MouseEventArgs) {
