@@ -36,8 +36,12 @@ export const useFamilyStore = defineStore('family', {
         removePerson(person: Person) {
             this.people.splice(this.people.indexOf(person), 1)
         },
-        movePerson(i: number, position: Coordinate) {
-            this.people[i].position = position
+        setPersonLocation(i: number, location: Coordinate) {
+            this.people[i].position = location
+        },
+        movePerson(i: number, amount: Partial<Coordinate>,) {
+            this.people[i].position.x += amount.x ?? 0
+            this.people[i].position.y += amount.y ?? 0
         }
     }
 })

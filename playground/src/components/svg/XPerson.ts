@@ -1,7 +1,7 @@
 import type { Coordinate, MouseEventArgs, MouseEventType } from "@/@types/editor";
 import type { Person, PersonStyles } from "@/@types/family"
 import { useFamilyStore } from "@/stores/family"
-import { computed, reactive, ref, type ComputedRef, type Ref } from "vue";
+import { computed, reactive, ref, watch, type ComputedRef, type Ref } from "vue";
 import { XComponent } from "./XComponent";
 
 export interface Props {
@@ -22,7 +22,7 @@ export class XPerson extends XComponent {
     public styles: ComputedRef<PersonStyles>
     public positions: ComputedRef<ElementPositions>
     public svgStyles = computed(() => ({
-        stroke: this.isHovered.value ? "#000" : "transparent",
+        stroke: "#000",
         fill: this.isHovered.value ? "#eee" : "transparent"
     }))
     public $emit: any
@@ -48,6 +48,12 @@ export class XPerson extends XComponent {
         this.positions = this.initElementPositions()
     }
 
+    public onMounted(el: Ref<SVGGraphicsElement|undefined>) {
+        this.el = el
+        this.setBBox()
+ 
+    }
+
     public initStyles(): ComputedRef<PersonStyles> {
         return computed(() => ({...this.family.options.defaultStyles, ...this.person.styles}))
     }
@@ -66,12 +72,12 @@ export class XPerson extends XComponent {
             }
         }))
     }
+
     
     public onMouseEvent(eventType: MouseEventType, e: MouseEvent, args: MouseEventArgs) {
         let el = e.target as SVGGraphicsElement
         console.log(eventType)
         this.mouseEventMap[eventType].bind(this)(e, args)
-        this.calculateBBox()
         el.style.cursor = "pointer"
     }
 
@@ -79,8 +85,6 @@ export class XPerson extends XComponent {
     }
 
     private onMouseMove(e: MouseEvent, args: MouseEventArgs) {
-        console.log(this.isHolding.value);
-        
         if(this.isHolding.value) {
             let oldLoc = this.holdingFrom
             let mousePos = args.mousePosition.value
@@ -89,7 +93,10 @@ export class XPerson extends XComponent {
                 x: oldLoc.component.x + (mousePos.x - oldLoc.mouse.x),
                 y: oldLoc.component.y  + (mousePos.y - oldLoc.mouse.y)
             }
-            this.family.movePerson(this.props.id, newLocation)
+            console.log(newLocation);
+            
+            this.family.setPersonLocation(this.props.id, newLocation)
+            this.setBBox()
         }
     }
     
@@ -111,7 +118,6 @@ export class XPerson extends XComponent {
         console.log("mouseentersasdasds");
         
         this.isHovered.value = true
-        this.bbox.value = (this.el.value as SVGGraphicsElement).getBBox()
     }
 
     private onMouseLeave(e: MouseEvent, args: MouseEventArgs) {

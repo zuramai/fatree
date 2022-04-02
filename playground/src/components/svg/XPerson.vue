@@ -11,6 +11,7 @@ const props = withDefaults(defineProps<Props>(),
     }
 );
 
+const svg = inject<Ref<SVGElement>>("svg")
 const mousePosition = inject<Ref<Coordinate>>("svgMousePosition")
 
 
@@ -24,8 +25,13 @@ const positions = xPerson.positions
 const styles = xPerson.styles.value
 
 
+
 onMounted(() => {
+    xPerson.onMounted(personEl)
     xPerson.el = personEl
+    xPerson.family.$subscribe((mutation, state) => {
+    })
+    
 })
 
 // Events
@@ -35,6 +41,14 @@ const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
 console.log(xPerson.person.position)
 </script>
 <template>
+    <!-- A group dummy element for mouse event purpose -->
+    <rect :x="xPerson.bbox?.x" 
+        :y="xPerson.bbox?.y" 
+        :width="xPerson.bbox?.width" 
+        :height="xPerson.bbox?.height" 
+        fill="transparent"
+        :stroke="xPerson.svgStyles.value.stroke"> -->
+    </rect>
 
     <!-- The group of person's component -->
     <g class="person" 
@@ -47,15 +61,6 @@ console.log(xPerson.person.position)
         @mousedown="e => mouseEvent(e, 'mousedown')"
         ref="personEl">
         
-        <!-- A group dummy element for mouse event purpose -->
-        <!-- <rect :x="xPerson.bbox.value.x" 
-            :y="xPerson.bbox.value.y" 
-            :width="xPerson.bbox.value.width" 
-            :height="xPerson.bbox.value.height" 
-            fill="transparent"
-            :stroke="xPerson.svgStyles.value.stroke"> -->
-        <!-- </rect> -->
-
         <defs>
             <clipPath :id="`person-image-${id}`">
                 <circle id='top' :cx="person.position.x" :cy="person.position.y" :r="styles.imageSize.width"/>
@@ -87,5 +92,7 @@ console.log(xPerson.person.position)
             <text></text>
         </g>
     </g>
+    
+
     <circle r="10" :cx="xPerson.person.position.x" :cy="xPerson.person.position.y"></circle>
 </template>
