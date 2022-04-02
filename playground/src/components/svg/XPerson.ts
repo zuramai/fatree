@@ -17,17 +17,16 @@ export interface ElementPositions {
 
 export class XPerson extends XComponent {
     public family
+    public person: Person
     public props: Props
     public styles: ComputedRef<PersonStyles>
-    public positions: ElementPositions
+    public positions: ComputedRef<ElementPositions>
     public svgStyles = computed(() => ({
         stroke: this.isHovered.value ? "#000" : "transparent",
         fill: this.isHovered.value ? "#eee" : "transparent"
     }))
     public $emit: any
     
-    public personEl: Ref<SVGGraphicsElement|undefined> = ref()
-    public bbox: Ref<Partial<DOMRect>> = ref<Partial<DOMRect>>({x: 0, y:0, width: 0, height: 0});
 
     private mouseEventMap: {[key in MouseEventType]: (e: MouseEvent, args: MouseEventArgs) => void} = {
         "click": this.onMouseClick,
@@ -41,47 +40,38 @@ export class XPerson extends XComponent {
 
     constructor(props: Props) {
         super()
-
+        
         this.family = useFamilyStore()
+        this.person = this.family.people[props.id]
         this.props = props
         this.styles = this.initStyles()
         this.positions = this.initElementPositions()
     }
 
     public initStyles(): ComputedRef<PersonStyles> {
-        return computed(() => Object.assign(this.family.options.defaultStyles, this.props.person.styles))
+        return computed(() => ({...this.family.options.defaultStyles, ...this.person.styles}))
     }
 
     public initElementPositions() {
-        return reactive<ElementPositions>({
+        return computed<ElementPositions>(() => ({
             image: {
-                    x: this.props.person.position.x - this.styles.value.imageSize.width,
-                    y: this.props.person.position.y - this.styles.value.imageSize.height,
+                    x: this.person.position.x - this.styles.value.imageSize.width,
+                    y: this.person.position.y - this.styles.value.imageSize.height,
                     w: this.styles.value.imageSize.width * 2,
                     h: this.styles.value.imageSize.height * 2,
             },
             name: {
                     ...this.props.person.position, 
                     y: this.props.person.position.y + this.props.person.styles!.imageSize!.height + this.styles.value.fontSize + 10// with padding
-                }
-            
-        })
-    }
-
-    public getNamePosition() {
-        return computed(() => { 
-            return {
-                ...this.props.person.position, 
-                y: this.props.person.position.y + this.props.person.styles!.imageSize!.height + this.styles.value.fontSize + 10// with padding
             }
-        })
+        }))
     }
-
+    
     public onMouseEvent(eventType: MouseEventType, e: MouseEvent, args: MouseEventArgs) {
         let el = e.target as SVGGraphicsElement
         console.log(eventType)
         this.mouseEventMap[eventType].bind(this)(e, args)
-
+        this.calculateBBox()
         el.style.cursor = "pointer"
     }
 
@@ -89,24 +79,25 @@ export class XPerson extends XComponent {
     }
 
     private onMouseMove(e: MouseEvent, args: MouseEventArgs) {
+        console.log(this.isHolding.value);
+        
         if(this.isHolding.value) {
-            let oldLoc = this.holdingFrom.value
-            let newLoc = args.mousePosition.value
+            let oldLoc = this.holdingFrom
+            let mousePos = args.mousePosition.value
 
             let newLocation: Coordinate = { 
-                x: this.props.person.position.x + (newLoc.x - oldLoc.x),
-                y: this.props.person.position.y + (newLoc.y - oldLoc.y)
+                x: oldLoc.component.x + (mousePos.x - oldLoc.mouse.x),
+                y: oldLoc.component.y  + (mousePos.y - oldLoc.mouse.y)
             }
-            
-            this.$emit("move", newLocation)
+            this.family.movePerson(this.props.id, newLocation)
         }
     }
     
     private onMouseDown(e: MouseEvent, args: MouseEventArgs) {
         this.isHolding.value = true
-        this.holdingFrom = args.mousePosition
-
-        console.log("holding from ", this.holdingFrom.value);
+        this.holdingFrom.mouse = args.mousePosition.value
+        this.holdingFrom.component = {x: this.person.position.x, y: this.person.position.y}
+        console.log("holding from ", this.holdingFrom);
     }
     
     private onMouseClick(e: MouseEvent, args: MouseEventArgs) {
@@ -120,7 +111,7 @@ export class XPerson extends XComponent {
         console.log("mouseentersasdasds");
         
         this.isHovered.value = true
-        this.bbox.value = (this.personEl.value as SVGGraphicsElement).getBBox()
+        this.bbox.value = (this.el.value as SVGGraphicsElement).getBBox()
     }
 
     private onMouseLeave(e: MouseEvent, args: MouseEventArgs) {

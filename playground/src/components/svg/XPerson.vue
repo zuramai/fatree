@@ -25,15 +25,14 @@ const styles = xPerson.styles.value
 
 
 onMounted(() => {
-    xPerson.personEl = personEl
-    xPerson.bbox.value = xPerson.personEl.value!.getBBox()   
+    xPerson.el = personEl
 })
 
 // Events
 const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
-  xPerson.onMouseEvent(name, e, { mousePosition: mousePosition! })  
+    xPerson.onMouseEvent(name, e, { mousePosition: mousePosition! })  
 } 
-
+console.log(xPerson.person.position)
 </script>
 <template>
 
@@ -49,13 +48,13 @@ const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
         ref="personEl">
         
         <!-- A group dummy element for mouse event purpose -->
-        <rect :x="xPerson.bbox.value.x" 
+        <!-- <rect :x="xPerson.bbox.value.x" 
             :y="xPerson.bbox.value.y" 
             :width="xPerson.bbox.value.width" 
             :height="xPerson.bbox.value.height" 
             fill="transparent"
-            :stroke="xPerson.svgStyles.value.stroke">
-        </rect>
+            :stroke="xPerson.svgStyles.value.stroke"> -->
+        <!-- </rect> -->
 
         <defs>
             <clipPath :id="`person-image-${id}`">
@@ -71,7 +70,7 @@ const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
                     :width="positions.image.w"
                     :height="positions.image.h" 
                     :xlink:href="person.img"
-                    preserveAspectRatio="xMidYMid slice" ></image>
+                    preserveAspectRatio="xMidYMid slice" draggable="false"></image>
         </g>
 
         <!-- Name -->
@@ -88,4 +87,5 @@ const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
             <text></text>
         </g>
     </g>
+    <circle r="10" :cx="xPerson.person.position.x" :cy="xPerson.person.position.y"></circle>
 </template>
