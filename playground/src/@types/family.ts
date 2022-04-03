@@ -1,3 +1,4 @@
+import type { ComponentState } from "./component"
 import type { Coordinate, EditorOptions, Size } from "./editor"
 
 export interface PersonStyles {
@@ -5,6 +6,7 @@ export interface PersonStyles {
     imageSize: Size
 }
 export interface Person {
+    id: string
     /**
      * Person name
      */
@@ -21,11 +23,20 @@ export interface Person {
      */
     position: Coordinate
 
-
     /**
      * Individual image size, default is based on EditorOptions.imageSize
      */
     styles?: Partial<PersonStyles>
+    
+    /**
+     * Person's SVG bounding box
+     */
+    bbox?: DOMRect
+
+    /**
+     * Person's in-editor current state 
+     */
+    state: ComponentState
 }
 
 export interface Relationship {
@@ -33,7 +44,23 @@ export interface Relationship {
 }
 
 export interface FamilyRootState {
+    /**
+     * Collection of person
+     */
     people: Person[]
+
+    /**
+     * Lines that connects people
+     */
+    lines: []
+
+    /**
+     * Relationship between people
+     */
     relationships: Relationship[]
+
+    /**
+     * Contains settings like font size, background, etc.
+     */
     options: EditorOptions
 }

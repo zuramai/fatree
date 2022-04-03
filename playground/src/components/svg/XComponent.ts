@@ -4,7 +4,7 @@ import { computed, reactive, ref, type ComputedRef, type Ref } from "vue"
 export class XComponent {
     public isFocus: Ref<boolean> = ref(false)
     public isHovered: Ref<boolean> = ref(false)
-    public isHolding: Ref<boolean> = ref(false)
+    public isDragging: Ref<boolean> = ref(false)
     public el: Ref<SVGGraphicsElement|undefined> = ref()
     public bbox!: DOMRect
 

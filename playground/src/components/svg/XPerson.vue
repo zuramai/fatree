@@ -11,27 +11,26 @@ const props = withDefaults(defineProps<Props>(),
     }
 );
 
+const emit = defineEmits(["move"])
 const svg = inject<Ref<SVGElement>>("svg")
 const mousePosition = inject<Ref<Coordinate>>("svgMousePosition")
+const image: Ref<SVGImageElement|undefined> = ref()
 
 
 // Init xPerson instance
 const xPerson = new XPerson(props)
-const emit = defineEmits(["move"])
 xPerson.$emit = emit
 
 const personEl: Ref<SVGGraphicsElement|undefined> = ref()
 const positions = xPerson.positions
 const styles = xPerson.styles.value
 
-
-
 onMounted(() => {
     xPerson.onMounted(personEl)
     xPerson.el = personEl
-    xPerson.family.$subscribe((mutation, state) => {
-    })
-    
+
+    // Disable image dragging
+    image.value?.addEventListener('dragstart', (e) => e.preventDefault())
 })
 
 // Events
@@ -42,13 +41,13 @@ console.log(xPerson.person.position)
 </script>
 <template>
     <!-- A group dummy element for mouse event purpose -->
-    <rect :x="xPerson.bbox?.x" 
+    <!-- <rect :x="xPerson.bbox?.x" 
         :y="xPerson.bbox?.y" 
         :width="xPerson.bbox?.width" 
         :height="xPerson.bbox?.height" 
         fill="transparent"
-        :stroke="xPerson.svgStyles.value.stroke"> -->
-    </rect>
+        :stroke="xPerson.svgStyles.value.stroke">
+    </rect> -->
 
     <!-- The group of person's component -->
     <g class="person" 
@@ -60,21 +59,21 @@ console.log(xPerson.person.position)
         @mouseenter="e => mouseEvent(e, 'mouseenter')"
         @mousedown="e => mouseEvent(e, 'mousedown')"
         ref="personEl">
-        
         <defs>
-            <clipPath :id="`person-image-${id}`">
+            <clipPath :id="`person-image-${index}`">
                 <circle id='top' :cx="person.position.x" :cy="person.position.y" :r="styles.imageSize.width"/>
             </clipPath>
         </defs>
 
         <!-- Image -->
         <g class="person-image">
-            <image :clip-path="`url(#person-image-${id})`" 
+            <image :clip-path="`url(#person-image-${index})`" 
                     :x="positions.image.x" 
                     :y="positions.image.y" 
                     :width="positions.image.w"
                     :height="positions.image.h" 
                     :xlink:href="person.img"
+                    ref="image"
                     preserveAspectRatio="xMidYMid slice" draggable="false"></image>
         </g>
 
@@ -93,6 +92,4 @@ console.log(xPerson.person.position)
         </g>
     </g>
     
-
-    <circle r="10" :cx="xPerson.person.position.x" :cy="xPerson.person.position.y"></circle>
 </template>

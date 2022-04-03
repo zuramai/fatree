@@ -6,7 +6,7 @@ import { XComponent } from "./XComponent";
 
 export interface Props {
     person: Person
-    id: number,
+    index: number
     hoverColor?: string
 }
 
@@ -42,7 +42,7 @@ export class XPerson extends XComponent {
         super()
         
         this.family = useFamilyStore()
-        this.person = this.family.people[props.id]
+        this.person = props.person
         this.props = props
         this.styles = this.initStyles()
         this.positions = this.initElementPositions()
@@ -51,7 +51,6 @@ export class XPerson extends XComponent {
     public onMounted(el: Ref<SVGGraphicsElement|undefined>) {
         this.el = el
         this.setBBox()
- 
     }
 
     public initStyles(): ComputedRef<PersonStyles> {
@@ -85,7 +84,7 @@ export class XPerson extends XComponent {
     }
 
     private onMouseMove(e: MouseEvent, args: MouseEventArgs) {
-        if(this.isHolding.value) {
+        if(this.isDragging.value) {
             let oldLoc = this.holdingFrom
             let mousePos = args.mousePosition.value
 
@@ -95,32 +94,34 @@ export class XPerson extends XComponent {
             }
             console.log(newLocation);
             
-            this.family.setPersonLocation(this.props.id, newLocation)
+            this.family.setPersonLocation(this.person.id, newLocation)
             this.setBBox()
         }
     }
     
     private onMouseDown(e: MouseEvent, args: MouseEventArgs) {
-        this.isHolding.value = true
         this.holdingFrom.mouse = args.mousePosition.value
         this.holdingFrom.component = {x: this.person.position.x, y: this.person.position.y}
+
+        this.family.setPersonState(this.person.id, "isActive", true)
+        
         console.log("holding from ", this.holdingFrom);
     }
     
     private onMouseClick(e: MouseEvent, args: MouseEventArgs) {
+        let activeState = this.family.getPerson(this.person.id)!.state.isActive
+        this.family.setPersonState(this.person.id, "isActive", !activeState)
     }
 
     private onMouseUp(e: MouseEvent, args: MouseEventArgs) {
-        this.isHolding.value = false
+        this.family.setPersonState(this.person.id, "isActive", false)
     }
 
     private onMouseEnter(e: MouseEvent, args: MouseEventArgs) {
-        console.log("mouseentersasdasds");
-        
-        this.isHovered.value = true
+        this.family.setPersonState(this.person.id, "isHovered", true)
     }
 
     private onMouseLeave(e: MouseEvent, args: MouseEventArgs) {
-        this.isHovered.value = false
+        this.family.setPersonState(this.person.id, "isHovered", false)
     }
 }
