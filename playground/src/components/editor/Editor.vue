@@ -29,7 +29,6 @@ function onMouseMove(e: MouseEvent) {
 	if(isMouseDown.value) {
 		// Move all `isDragging` people
 		for(let i = 0; i < personInHold.length; i++) {
-			console.log("MOVING")
 			let person = family.getPerson(personInHold[i].id)
 	
 			let newLocation = {
@@ -47,6 +46,7 @@ function onMouseUp(e: MouseEvent) {
 function onMouseLeave(e: MouseEvent) {}
 function onMouseEnter(e: MouseEvent) {}
 function onMouseDown(e: MouseEvent) {
+	console.log("EVENT FROM EDITOR")
 	isMouseDown.value = true
 	family.people.forEach(person => person.state.startDraggingAt = person.position)
 	mouseHoldingFrom = svgMousePosition.value!
@@ -77,26 +77,24 @@ provide("svgMousePosition", svgMousePosition)
 </script>
 <template>
 <div class="editor-area">
-<svg id="editor" 
+	<svg id="editor" 
 		ref="svg" 
 		width="100%" 
 		height="100%" 
 		xmlns="http://www.w3.org/2000/svg" 
-		@click="onMouseClick" 
-		@mousemove="onMouseMove" 
+        @click="(e: MouseEvent) => mouseEvent(e, 'click')" 
+        @mouseover="(e: MouseEvent) => mouseEvent(e, 'mouseover')" 
+        @mouseleave="(e: MouseEvent) => mouseEvent(e, 'mouseleave')" 
+        @mouseup="(e: MouseEvent) => mouseEvent(e, 'mouseup')" 
+        @mousemove="(e: MouseEvent) => mouseEvent(e, 'mousemove')" 
+        @mouseenter="(e: MouseEvent) => mouseEvent(e, 'mouseenter')"
+        @mousedown="(e: MouseEvent) => mouseEvent(e, 'mousedown')"
 	>
 	<background-grid></background-grid>
 	<x-person 
 		v-for="(person, i) in family.people" 
 		:person="person" 
 		:index="i"
-        @click="e => mouseEvent(e, 'click')" 
-        @mouseover="e => mouseEvent(e, 'mouseover')" 
-        @mouseleave="e => mouseEvent(e, 'mouseleave')" 
-        @mouseup="e => mouseEvent(e, 'mouseup')" 
-        @mousemove="e => mouseEvent(e, 'mousemove')" 
-        @mouseenter="e => mouseEvent(e, 'mouseenter')"
-        @mousedown="e => mouseEvent(e, 'mousedown')"
 		>
 	</x-person>
 	</svg>

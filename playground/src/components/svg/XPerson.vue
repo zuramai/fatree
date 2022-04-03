@@ -28,6 +28,7 @@ const styles = xPerson.styles.value
 onMounted(() => {
     xPerson.onMounted(personEl)
     xPerson.el = personEl
+    xPerson.setBBox()
 
     // Disable image dragging
     image.value?.addEventListener('dragstart', (e) => e.preventDefault())
@@ -41,14 +42,15 @@ console.log(xPerson.person.position)
 </script>
 <template>
     <!-- A group dummy element for mouse event purpose -->
-    <!-- <rect :x="xPerson.bbox?.x" 
-        :y="xPerson.bbox?.y" 
-        :width="xPerson.bbox?.width" 
-        :height="xPerson.bbox?.height" 
+    <rect :x="xPerson.bbox.value?.x" 
+        :y="xPerson.bbox.value?.y" 
+        :width="xPerson.bbox.value?.width" 
+        :height="xPerson.bbox.value?.height" 
         fill="transparent"
-        :stroke="xPerson.svgStyles.value.stroke">
-    </rect> -->
-
+        v-if="xPerson.person.state.isHovered"
+        stroke="#666">
+    </rect>
+    
     <!-- The group of person's component -->
     <g class="person" 
         @click="e => mouseEvent(e, 'click')" 
@@ -59,6 +61,8 @@ console.log(xPerson.person.position)
         @mouseenter="e => mouseEvent(e, 'mouseenter')"
         @mousedown="e => mouseEvent(e, 'mousedown')"
         ref="personEl">
+      
+ 
         <defs>
             <clipPath :id="`person-image-${index}`">
                 <circle id='top' :cx="person.position.x" :cy="person.position.y" :r="styles.imageSize.width"/>

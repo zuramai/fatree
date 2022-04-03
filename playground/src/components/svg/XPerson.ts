@@ -46,6 +46,10 @@ export class XPerson extends XComponent {
         this.props = props
         this.styles = this.initStyles()
         this.positions = this.initElementPositions()
+
+        this.isHovered.value = this.person.state.isHovered
+        this.isDragging.value = this.person.state.isDragging
+        this.isActive.value = this.person.state.isActive
     }
 
     public onMounted(el: Ref<SVGGraphicsElement|undefined>) {
@@ -84,28 +88,12 @@ export class XPerson extends XComponent {
     }
 
     private onMouseMove(e: MouseEvent, args: MouseEventArgs) {
-        if(this.isDragging.value) {
-            let oldLoc = this.holdingFrom
-            let mousePos = args.mousePosition.value
-
-            let newLocation: Coordinate = { 
-                x: oldLoc.component.x + (mousePos.x - oldLoc.mouse.x),
-                y: oldLoc.component.y  + (mousePos.y - oldLoc.mouse.y)
-            }
-            console.log(newLocation);
-            
-            this.family.setPersonLocation(this.person.id, newLocation)
-            this.setBBox()
-        }
+        this.setBBox()
     }
     
     private onMouseDown(e: MouseEvent, args: MouseEventArgs) {
-        this.holdingFrom.mouse = args.mousePosition.value
-        this.holdingFrom.component = {x: this.person.position.x, y: this.person.position.y}
-
+    	console.log("EVENT FROM PERSON")
         this.family.setPersonState(this.person.id, "isActive", true)
-        
-        console.log("holding from ", this.holdingFrom);
     }
     
     private onMouseClick(e: MouseEvent, args: MouseEventArgs) {
