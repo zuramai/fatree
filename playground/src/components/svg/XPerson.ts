@@ -1,5 +1,6 @@
 import type { Coordinate, MouseEventArgs, MouseEventType } from "@/@types/editor";
 import type { Person, PersonStyles } from "@/@types/family"
+import { useEditorStore } from "@/stores/editor";
 import { useFamilyStore } from "@/stores/family"
 import { computed, reactive, ref, watch, type ComputedRef, type Ref } from "vue";
 import { XComponent } from "./XComponent";
@@ -17,6 +18,7 @@ export interface ElementPositions {
 
 export class XPerson extends XComponent {
     public family
+    public editor
     public person: Person
     public props: Props
     public styles: ComputedRef<PersonStyles>
@@ -41,6 +43,7 @@ export class XPerson extends XComponent {
     constructor(props: Props) {
         super()
         
+        this.editor = useEditorStore()
         this.family = useFamilyStore()
         this.person = props.person
         this.props = props
@@ -58,7 +61,7 @@ export class XPerson extends XComponent {
     }
 
     public initStyles(): ComputedRef<PersonStyles> {
-        return computed(() => ({...this.family.options.defaultStyles, ...this.person.styles}))
+        return computed(() => ({...this.editor.options.defaultStyles, ...this.person.styles}))
     }
 
     public initElementPositions() {

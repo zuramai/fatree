@@ -28,3 +28,10 @@ export interface EditorOptions {
 export interface MouseEventArgs {
     mousePosition: Ref<Coordinate>
 }
+
+export interface EditorRootState {
+    /**
+     * Contains settings like font size, background, etc.
+     */
+    options: EditorOptions
+}

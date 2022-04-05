@@ -59,8 +59,4 @@ export interface FamilyRootState {
      */
     relationships: Relationship[]
 
-    /**
-     * Contains settings like font size, background, etc.
-     */
-    options: EditorOptions
 }

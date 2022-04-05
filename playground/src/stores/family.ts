@@ -11,16 +11,6 @@ export const useFamilyStore = defineStore('family', {
             lines: [],
             relationships: [],
             
-            // Default options
-            options: {
-                defaultStyles: {
-                    imageSize: {
-                        width: 75,
-                        height: 75
-                    },
-                    fontSize: 24
-                }
-            }
         }
     },
     getters: {
