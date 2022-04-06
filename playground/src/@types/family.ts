@@ -1,62 +1,27 @@
-import type { ComponentState } from "./component"
-import type { Coordinate, EditorOptions, Size } from "./editor"
-
-export interface PersonStyles {
-    fontSize: number
-    imageSize: Size
-}
-export interface Person {
-    id: string
-    /**
-     * Person name
-     */
-    name: string
-
-    /**
-     * Image URL 
-     */
-    img: string
-    
-
-    /**
-     * In-editor Coordinate
-     */
-    position: Coordinate
-
-    /**
-     * Individual image size, default is based on EditorOptions.imageSize
-     */
-    styles?: Partial<PersonStyles>
-    
-    /**
-     * Person's SVG bounding box
-     */
-    bbox?: DOMRect
-
-    /**
-     * Person's in-editor current state 
-     */
-    state: ComponentState
-}
+import type { Person, PersonStyles } from "@/@types/person"
+import type { Line } from "./lines"
 
 export interface Relationship {
-    
+    person1: Person // Ini buat bapak
+    person2: Person // Ini buat ibu
+    to?: Person[] // Optional, ini buat anak. Kalo gapunya anak, null aja.
+    line: Line // SVG Line yang menghubungkan antar-orang
 }
 
 export interface FamilyRootState {
     /**
      * Collection of person
+     * personId: Person
      */
-    people: Person[]
+    people: {[id: string]: Person}
 
     /**
      * Lines that connects people
      */
-    lines: []
+    lines: Line[]
 
     /**
      * Relationship between people
      */
     relationships: Relationship[]
-
 }

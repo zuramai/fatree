@@ -1,32 +1,33 @@
 import type { ComponentState } from '@/@types/component'
 import type { Coordinate } from '@/@types/editor'
-import type { FamilyRootState, Person } from '@/@types/family'
+import type { FamilyRootState } from '@/@types/family'
 import { v4 as uuidv4 } from 'uuid'
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import type { Person } from '@/@types/person'
 
 export const useFamilyStore = defineStore('family', {
     state: (): FamilyRootState => {
         return {
-            people: [],
+            people: {},
             lines: [],
             relationships: [],
-            
         }
     },
     getters: {
         filterPeople(state) {
             return (name: string) => {
-                return state.people.filter(person => person.name.toLowerCase().includes(name.toLowerCase()))
+                return Object.values(state.people).filter(person => person.name.toLowerCase().includes(name.toLowerCase()))
             } 
         },
         filterPeopleByState(state) {
             return (s: keyof ComponentState) => {
-                return state.people.filter(person => person.state[s] == true)
+                return Object.values(state.people).filter(person => person.state[s] == true)
             } 
         },
         getPerson(state) {
-            return (personId: string) => {
-                return state.people.find((p) => p.id === personId)
+            return (personId: string): Person => {
+                console.log('getting person ', personId)
+                return state.people[personId] ?? null
             }
         },
         getBBox(state) {
@@ -42,11 +43,12 @@ export const useFamilyStore = defineStore('family', {
         addPerson(person: Person) {
             person.id = uuidv4()
 
-            this.people.push(person)
+            this.people[person.id] = (person)
             console.log(this.people)
         },
         removePerson(person: Person) {
-            this.people.splice(this.people.indexOf(person), 1)
+            let ppl = Object.values(this.people)
+            ppl.splice(ppl.indexOf(person), 1)
         },
         setPersonLocation(id: string, location: Coordinate) {
             this.getPerson(id)!.position = location

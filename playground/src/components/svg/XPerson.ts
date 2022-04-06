@@ -1,12 +1,12 @@
 import type { Coordinate, MouseEventArgs, MouseEventType } from "@/@types/editor";
-import type { Person, PersonStyles } from "@/@types/family"
+import type { Person, PersonStyles } from "@/@types/person"
 import { useEditorStore } from "@/stores/editor";
 import { useFamilyStore } from "@/stores/family"
 import { computed, reactive, ref, watch, type ComputedRef, type Ref } from "vue";
 import { XComponent } from "./XComponent";
 
 export interface Props {
-    person: Person
+    id: string
     index: number
     hoverColor?: string
 }
@@ -45,7 +45,7 @@ export class XPerson extends XComponent {
         
         this.editor = useEditorStore()
         this.family = useFamilyStore()
-        this.person = props.person
+        this.person = this.family.getPerson(props.id)
         this.props = props
         this.styles = this.initStyles()
         this.positions = this.initElementPositions()
@@ -73,8 +73,8 @@ export class XPerson extends XComponent {
                     h: this.styles.value.imageSize.height * 2,
             },
             name: {
-                    ...this.props.person.position, 
-                    y: this.props.person.position.y + this.props.person.styles!.imageSize!.height + this.styles.value.fontSize + 10// with padding
+                    ...this.person.position, 
+                    y: this.person.position.y + this.person.styles!.imageSize!.height + this.styles.value.fontSize + 10// with padding
             }
         }))
     }

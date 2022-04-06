@@ -48,7 +48,7 @@ function onMouseEnter(e: MouseEvent) {}
 function onMouseDown(e: MouseEvent) {
 	console.log("EVENT FROM EDITOR")
 	isMouseDown.value = true
-	family.people.forEach(person => person.state.startDraggingAt = person.position)
+	Object.keys(family.people).forEach(id => family.people[id].state.startDraggingAt = family.people[id].position)
 	mouseHoldingFrom = svgMousePosition.value!
 }
 
@@ -92,8 +92,8 @@ provide("svgMousePosition", svgMousePosition)
 	>
 	<background-grid></background-grid>
 	<x-person 
-		v-for="(person, i) in family.people" 
-		:person="person" 
+		v-for="(id, i) in Object.keys(family.people)" 
+		:id="id"
 		:index="i"
 		>
 	</x-person>

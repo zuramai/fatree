@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Coordinate, MouseEventType } from '@/@types/editor';
-import type { Person } from '@/@types/family';
 import { computed, inject, onMounted, reactive, ref, watch, type ComputedRef, type Ref } from 'vue';
 import { XPerson } from './XPerson';
 import type { Props } from "./XPerson"
@@ -24,6 +23,7 @@ xPerson.$emit = emit
 const personEl: Ref<SVGGraphicsElement|undefined> = ref()
 const positions = xPerson.positions
 const styles = xPerson.styles.value
+const person = xPerson.person
 
 onMounted(() => {
     xPerson.onMounted(personEl)

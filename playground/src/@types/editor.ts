@@ -1,5 +1,6 @@
 import type { Ref } from "vue"
-import type { PersonStyles } from "./family"
+import type { TheComponent } from "./component"
+import type { PersonStyles } from "./person"
 
 export type MouseEventType = "click" | "mouseover" | "mousemove" | "mousedown" | "mouseup" | "mouseleave" | "mouseenter"
 export type KeyboardEventType = "keydown" | "keyup" | "keypress"
@@ -30,6 +31,11 @@ export interface MouseEventArgs {
 }
 
 export interface EditorRootState {
+    /**
+     * Currently active component
+     */
+    activeComponents: TheComponent[]
+
     /**
      * Contains settings like font size, background, etc.
      */
