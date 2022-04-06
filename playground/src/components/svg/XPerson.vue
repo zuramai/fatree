@@ -47,7 +47,7 @@ console.log(xPerson.person.position)
         :width="xPerson.bbox.value?.width" 
         :height="xPerson.bbox.value?.height" 
         fill="transparent"
-        v-if="xPerson.person.state.isHovered"
+        v-if="xPerson.person.state.isActive"
         stroke="#666">
     </rect>
     

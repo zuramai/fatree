@@ -26,7 +26,6 @@ export const useFamilyStore = defineStore('family', {
         },
         getPerson(state) {
             return (personId: string): Person => {
-                console.log('getting person ', personId)
                 return state.people[personId] ?? null
             }
         },
@@ -38,7 +37,7 @@ export const useFamilyStore = defineStore('family', {
     },
     actions: {
         setPersonState(personId: string, state: keyof ComponentState, value: any) {
-            this.getPerson(personId)!.state[state] = value
+            this.people[personId].state[state] = value
         },
         addPerson(person: Person) {
             person.id = uuidv4()
@@ -49,6 +48,11 @@ export const useFamilyStore = defineStore('family', {
         removePerson(person: Person) {
             let ppl = Object.values(this.people)
             ppl.splice(ppl.indexOf(person), 1)
+        },
+        removeAllActiveState() {
+            Object.keys(this.people).forEach(personId => {
+                this.setPersonState(personId, "isActive", false)
+            })
         },
         setPersonLocation(id: string, location: Coordinate) {
             this.getPerson(id)!.position = location

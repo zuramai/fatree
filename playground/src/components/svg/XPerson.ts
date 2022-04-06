@@ -96,16 +96,20 @@ export class XPerson extends XComponent {
     
     private onMouseDown(e: MouseEvent, args: MouseEventArgs) {
     	console.log("EVENT FROM PERSON")
-        this.family.setPersonState(this.person.id, "isActive", true)
     }
     
     private onMouseClick(e: MouseEvent, args: MouseEventArgs) {
-        let activeState = this.family.getPerson(this.person.id)!.state.isActive
-        this.family.setPersonState(this.person.id, "isActive", !activeState)
+        console.log("anjing");
+        
+        if(!e.ctrlKey) {
+            this.family.removeAllActiveState()
+        }
+
+        // Set active state for this component
+        this.family.setPersonState(this.person.id, "isActive", !this.person.state.isActive)
     }
 
     private onMouseUp(e: MouseEvent, args: MouseEventArgs) {
-        this.family.setPersonState(this.person.id, "isActive", false)
     }
 
     private onMouseEnter(e: MouseEvent, args: MouseEventArgs) {
