@@ -25,7 +25,7 @@ declare module 'vue' {
     XButton: typeof import('./src/components/button/XButton.vue')['default']
     XInput: typeof import('./src/components/forms/XInput.vue')['default']
     XModal: typeof import('./src/components/modal/XModal.vue')['default']
-    XPerson: typeof import('./src/components/svg/XPerson.vue')['default']
+    XPerson: typeof import('./src/components/editor/svg/XPerson.vue')['default']
   }
 }
 

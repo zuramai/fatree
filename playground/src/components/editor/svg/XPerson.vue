@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Coordinate, MouseEventType } from '@/@types/editor';
-import { computed, inject, onMounted, reactive, ref, watch, type ComputedRef, type Ref } from 'vue';
+import { inject, onMounted, ref, type Ref } from 'vue';
 import { XPerson } from './XPerson';
 import type { Props } from "./XPerson"
 
@@ -42,7 +42,8 @@ console.log(xPerson.person.position)
 </script>
 <template>
     <!-- A group dummy element for mouse event purpose -->
-    <rect :x="xPerson.bbox.value?.x" 
+    <rect data-component="person"
+        :x="xPerson.bbox.value?.x" 
         :y="xPerson.bbox.value?.y" 
         :width="xPerson.bbox.value?.width" 
         :height="xPerson.bbox.value?.height" 
@@ -52,7 +53,8 @@ console.log(xPerson.person.position)
     </rect>
     
     <!-- The group of person's component -->
-    <g class="person" 
+    <g  data-component="person"
+        class="person" 
         @click="e => mouseEvent(e, 'click')" 
         @mouseover="e => mouseEvent(e, 'mouseover')" 
         @mouseleave="e => mouseEvent(e, 'mouseleave')" 

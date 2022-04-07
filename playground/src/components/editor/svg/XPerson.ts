@@ -99,8 +99,6 @@ export class XPerson extends XComponent {
     }
     
     private onMouseClick(e: MouseEvent, args: MouseEventArgs) {
-        console.log("anjing");
-        
         if(!e.ctrlKey) {
             this.family.removeAllActiveState()
         }

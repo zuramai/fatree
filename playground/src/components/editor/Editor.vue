@@ -3,7 +3,7 @@ import type { Coordinate, MouseEventType } from "@/@types/editor";
 import BackgroundGrid from "@/components/editor/BackgroundGrid.vue"
 import { useFamilyStore } from "@/stores/family";
 import { computed, provide, reactive, ref } from "vue";
-import XPerson from "../svg/XPerson.vue"
+import XPerson from "./svg/XPerson.vue"
 
 const family = useFamilyStore()
 
@@ -22,7 +22,9 @@ function getMousePosition(x: number, y: number): Coordinate {
 	return pos
 }
 
-function onMouseClick(e: MouseEvent) {}
+function onMouseClick(e: MouseEvent) {
+	console.log((e.target as HTMLElement).getAttribute('data-component'));
+}
 function onMouseMove(e: MouseEvent) {
 	getMousePosition(e.clientX, e.clientY)
 	let personInHold = family.filterPeopleByState("isActive")
