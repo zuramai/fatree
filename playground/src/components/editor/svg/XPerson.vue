@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Coordinate, MouseEventType } from '@/@types/editor';
 import { inject, onMounted, ref, type Ref } from 'vue';
-import { XPerson } from './XPerson';
-import type { Props } from "./XPerson"
+import { XPerson } from '@/app/editor/components/XPerson';
+import type { Props } from "@/app/editor/components/XPerson"
 
 const props = withDefaults(defineProps<Props>(), 
     {

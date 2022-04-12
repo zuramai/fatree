@@ -4,6 +4,7 @@ import BackgroundGrid from "@/components/editor/BackgroundGrid.vue"
 import { useFamilyStore } from "@/stores/family";
 import { computed, provide, reactive, ref } from "vue";
 import XPerson from "./svg/XPerson.vue"
+import {MouseUtils} from "@/app/utils"
 
 const family = useFamilyStore()
 
@@ -23,7 +24,15 @@ function getMousePosition(x: number, y: number): Coordinate {
 }
 
 function onMouseClick(e: MouseEvent) {
-	console.log((e.target as HTMLElement).getAttribute('data-component'));
+	let clickTarget = MouseUtils.getMouseTarget(e)
+
+	if(clickTarget == 'bg-grid') {
+		// Clear all selected elements
+		family.clearAllActiveState()
+	}else if(clickTarget == 'person') {
+
+	}
+
 }
 function onMouseMove(e: MouseEvent) {
 	getMousePosition(e.clientX, e.clientY)
@@ -65,8 +74,9 @@ const mouseEventMap: {[key in MouseEventType]: (e: MouseEvent) => void} = {
 }
 
 function mouseEvent(e: MouseEvent, name: MouseEventType) {
-	mouseEventMap[name](e)
 	getMousePosition(e.clientX, e.clientY)
+	mouseEventMap[name](e)
+
 } 
 
 function movePerson(i: number, position: Coordinate) {

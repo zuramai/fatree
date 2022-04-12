@@ -49,7 +49,7 @@ export const useFamilyStore = defineStore('family', {
             let ppl = Object.values(this.people)
             ppl.splice(ppl.indexOf(person), 1)
         },
-        removeAllActiveState() {
+        clearAllActiveState() {
             Object.keys(this.people).forEach(personId => {
                 this.setPersonState(personId, "isActive", false)
             })

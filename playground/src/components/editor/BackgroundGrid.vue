@@ -8,5 +8,5 @@
         <path d="M 80 0 L 0 0 0 80" fill="none" stroke="#bbb" stroke-width="1"/>
     </pattern>
 </defs>
-<rect width="100%" height="100%" fill="url(#grid)" class="bg-grid"/>
+<rect width="100%" height="100%" fill="url(#grid)" data-component="bg-grid"/>
 </template>

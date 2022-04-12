@@ -82,7 +82,6 @@ export class XPerson extends XComponent {
     
     public onMouseEvent(eventType: MouseEventType, e: MouseEvent, args: MouseEventArgs) {
         let el = e.target as SVGGraphicsElement
-        console.log(eventType)
         this.mouseEventMap[eventType].bind(this)(e, args)
         el.style.cursor = "pointer"
     }
@@ -99,14 +98,15 @@ export class XPerson extends XComponent {
     }
     
     private onMouseClick(e: MouseEvent, args: MouseEventArgs) {
+       
         if(!e.ctrlKey) {
-            this.family.removeAllActiveState()
+            this.family.clearAllActiveState()
         }
 
         // Set active state for this component
         this.family.setPersonState(this.person.id, "isActive", !this.person.state.isActive)
     }
-
+    
     private onMouseUp(e: MouseEvent, args: MouseEventArgs) {
     }
 
