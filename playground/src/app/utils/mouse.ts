@@ -1,4 +1,12 @@
+import type { Coordinate } from "@/@types/editor"
+import { useEditorStore } from "@/stores/editor"
+import { useFamilyStore } from "@/stores/family"
+
+
+let svg: SVGGraphicsElement|null = null
 export class MouseUtils {
+    
+
     public static getMouseTarget(e: MouseEvent) {
         let el = e.target as HTMLElement
 

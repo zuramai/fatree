@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { RouterLink, RouterView } from 'vue-router'
+import {  RouterView } from 'vue-router'
 import Sidebar from "@/components/layouts/sidebar/Sidebar.vue"
+import { provide } from 'vue';
+import { createFatree } from './app';
+
+const fatree = createFatree()
+provide('app', fatree)
+
 </script>
 
 <template>

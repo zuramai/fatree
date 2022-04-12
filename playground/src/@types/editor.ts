@@ -31,6 +31,20 @@ export interface MouseEventArgs {
 }
 
 export interface EditorRootState {
+    svg: SVGGraphicsElement|null
+    
+    /**
+     * The current mouse position
+     */
+    mousePosition: Coordinate
+
+    /**
+     * Save the mouse position when user mouse down
+     */
+    mouseHoldingFrom: Coordinate
+
+    isMouseDown: boolean
+
     /**
      * Currently active component
      */

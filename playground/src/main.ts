@@ -14,6 +14,3 @@ app.config.performance = true;
 app.use(createPinia())
 app.use(router)
 app.mount('#app')
-
-const fatree = createFatree()
-app.provide('app', fatree)
