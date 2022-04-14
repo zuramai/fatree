@@ -1,6 +1,4 @@
 import type { Coordinate } from "./editor"
-import type { Line } from "./lines"
-import type { Person } from "./person"
 
 export interface ComponentState {
     isHovered: boolean,
@@ -10,14 +8,20 @@ export interface ComponentState {
     startDraggingAt?: Coordinate
 }
 
-export type TheComponent = {
+export enum ComponentType {
+    PERSON = "person",
+    LINE = "line",
+    SHAPE = "shape"
+}
+
+export type ComponentInterface = {
     /**
      * Type of the component
      */
-    type: "person" | "line" | "shape"
+    type: ComponentType
     
     /**
      * Person's in-editor current state 
      */
-     state: ComponentState
+    state: ComponentState
 }

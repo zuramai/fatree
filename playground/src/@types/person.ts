@@ -6,7 +6,7 @@ export interface PersonStyles {
     imageSize: Size
 }
 
-export interface Person extends TheComponent {
+export interface PersonMetadataInterface {
     id: string
 
     /**
@@ -17,21 +17,7 @@ export interface Person extends TheComponent {
     /**
      * Image URL 
      */
-    img: string
+    photo: string
     
-    /**
-     * In-editor Coordinate
-     */
-    position: Coordinate
-
-    /**
-     * Individual image size, default is based on EditorOptions.imageSize
-     */
-    styles?: Partial<PersonStyles>
-    
-    /**
-     * Person's SVG bounding box
-     */
-    bbox?: DOMRect
 
 }
