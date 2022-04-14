@@ -1,54 +1,47 @@
 <script setup lang="ts">
 import type { Coordinate, MouseEventType } from '@/@types/editor';
 import { inject, onMounted, ref, type Ref } from 'vue';
-import { XPerson } from '@/app/editor/components/XPerson';
-import type { Props } from "@/app/editor/components/XPerson"
+import type { XPerson } from '@/app/editor/components/XPerson';
+import type { Fatree } from '@/app';
 
-const props = withDefaults(defineProps<Props>(), 
-    {
-        hoverColor: "rgba(0,0,0,.1)"
-    }
-);
+const props = defineProps<{
+    id: string,
+    index: number
+}>()
+
+const app = inject<Fatree>("app")!
 
 const emit = defineEmits(["move"])
-const svg = inject<Ref<SVGElement>>("svg")
-const mousePosition = inject<Ref<Coordinate>>("svgMousePosition")
 const image: Ref<SVGImageElement|undefined> = ref()
 
+const person = app.people.getPerson(props.id)
+person.$emit = emit
 
-// Init xPerson instance
-const xPerson = new XPerson(props)
-xPerson.$emit = emit
+const personEl: Ref<SVGGraphicsElement|null> = ref(null)
+const positions = person.positions
 
-const personEl: Ref<SVGGraphicsElement|undefined> = ref()
-const positions = xPerson.positions
-const styles = xPerson.styles.value
-const person = xPerson.person
+
+// Events
+const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
+    person.onMouseEvent(name, e)  
+} 
 
 onMounted(() => {
-    xPerson.onMounted(personEl)
-    xPerson.el = personEl
-    xPerson.setBBox()
+    console.log("mounted called", personEl.value)
 
     // Disable image dragging
     image.value?.addEventListener('dragstart', (e) => e.preventDefault())
 })
-
-// Events
-const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
-    xPerson.onMouseEvent(name, e, { mousePosition: mousePosition! })  
-} 
-console.log(xPerson.person.position)
 </script>
 <template>
     <!-- A group dummy element for mouse event purpose -->
     <rect data-component="person"
-        :x="xPerson.bbox.value?.x" 
-        :y="xPerson.bbox.value?.y" 
-        :width="xPerson.bbox.value?.width" 
-        :height="xPerson.bbox.value?.height" 
+        :x="person.bbox.value?.x" 
+        :y="person.bbox.value?.y" 
+        :width="person.bbox.value?.width" 
+        :height="person.bbox.value?.height" 
         fill="transparent"
-        v-if="xPerson.person.state.isActive"
+        v-if="person.state.isActive"
         stroke="#666">
     </rect>
     
@@ -63,11 +56,10 @@ console.log(xPerson.person.position)
         @mouseenter="e => mouseEvent(e, 'mouseenter')"
         @mousedown="e => mouseEvent(e, 'mousedown')"
         ref="personEl">
-      
  
         <defs>
             <clipPath :id="`person-image-${index}`">
-                <circle id='top' :cx="person.position.x" :cy="person.position.y" :r="styles.imageSize.width"/>
+                <circle id='top' :cx="person.centerPosition.x" :cy="person.centerPosition.y" :r="person.styles!.imageSize!.width"/>
             </clipPath>
         </defs>
 
@@ -78,7 +70,7 @@ console.log(xPerson.person.position)
                     :y="positions.image.y" 
                     :width="positions.image.w"
                     :height="positions.image.h" 
-                    :xlink:href="person.img"
+                    :xlink:href="person.metadata.photo"
                     ref="image"
                     preserveAspectRatio="xMidYMid slice" draggable="false"></image>
         </g>
@@ -87,9 +79,9 @@ console.log(xPerson.person.position)
         <text 
             :x="positions.name.x" 
             :y="positions.name.y" 
-            :font-size="styles.fontSize" 
+            :font-size="person.styles!.fontSize" 
             text-anchor="middle">
-            {{ person.name }}
+            {{ person.metadata.name }}
         </text>
 
         

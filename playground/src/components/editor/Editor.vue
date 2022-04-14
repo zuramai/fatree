@@ -15,7 +15,6 @@ const family = useFamilyStore()
 // Storing mouse events state
 const app = inject<Fatree>("app")!
 const svg = ref()
-const svgMousePosition = ref<Coordinate>()
 
 onMounted(() => {
 	app.setSVG(svg.value)
@@ -38,7 +37,7 @@ onMounted(() => {
 	>
 	<background-grid></background-grid>
 	<x-person 
-		v-for="(id, i) in Object.keys(family.people)" 
+		v-for="(id, i) in Object.keys(app.people.people)" 
 		:id="id"
 		:index="i"
 		>

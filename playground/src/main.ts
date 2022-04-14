@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-import { createFatree } from "./app"
 import { createPinia } from 'pinia'
 
 import App from './App.vue'

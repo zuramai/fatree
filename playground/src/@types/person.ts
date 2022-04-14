@@ -1,4 +1,4 @@
-import type { ComponentState, TheComponent } from "./component"
+import type { ComponentState } from "./component"
 import type { Coordinate, Size } from "./editor"
 
 export interface PersonStyles {

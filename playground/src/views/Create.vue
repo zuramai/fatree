@@ -7,11 +7,20 @@ import Editor from '../components/editor/Editor.vue';
 import JaneDoeImg from "@/assets/images/janedoe.jpg"
 import JohnDoeImg from "@/assets/images/johndoe.jpg"
 import AnakImg from "@/assets/images/anak.png"
-import { onBeforeMount, onMounted } from 'vue';
+import { inject, onBeforeMount, onMounted } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
+import type { Fatree } from '@/app';
 
 // For development purpose
 const family = useFamilyStore()
+const app = inject<Fatree>("app")!
+
+app.people.addPerson({
+    name: "Saugi",
+    location: {x: 0, y: 0},
+    photo: JaneDoeImg,
+    id: uuidv4()
+})
 
 let ids = [uuidv4(), uuidv4(), uuidv4()]
 onBeforeMount(() => { 

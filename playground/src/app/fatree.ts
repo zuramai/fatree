@@ -4,11 +4,13 @@ import { useFamilyStore } from "@/stores/family"
 import { computed, onMounted, ref } from "vue"
 import type { XLine } from "./editor/components/XLine"
 import type { XPerson } from "./editor/components/XPerson"
+import { FatreeLines } from "./modules/fatreeLines"
+import { FatreePeople } from "./modules/fatreePeople"
 import { MouseUtils } from "./utils"
 
 export class Fatree {
-    public people: XPerson[] = []
-    public lines: XLine[] = []
+    public people: FatreePeople = new FatreePeople
+    public lines: FatreeLines = new FatreeLines
     public family = useFamilyStore()
     public editor = useEditorStore()
 
@@ -27,9 +29,6 @@ export class Fatree {
         this.family = useFamilyStore()
     }
 
-    movePerson(i: number, position: Coordinate) {
-        this.family.movePerson(i, position)
-    }
     onMouseEvent(e: MouseEvent, name: MouseEventType) {
         const mouseEventMap: {[key in MouseEventType]: (e: MouseEvent) => void} = {
             "click": this.onMouseClick,
@@ -41,7 +40,7 @@ export class Fatree {
             "mousedown": this.onMouseDown,
         }
 
-        mouseEventMap[name](e)
+        mouseEventMap[name].call(this,e)
     }
 
     
@@ -64,13 +63,13 @@ export class Fatree {
         if(this.editor.isMouseDown) {
             // Move all `isDragging` people
             for(let i = 0; i < personInHold.length; i++) {
-                let person = this.family.getPerson(personInHold[i].id)
+                let person = this.people.getPerson(personInHold[i].id)
         
                 let newLocation = {
                     x: person!.state.startDraggingAt!.x + (this.editor.mousePosition.x - this.editor.mouseHoldingFrom!.x),
                     y: person!.state.startDraggingAt!.y + (this.editor.mousePosition.y - this.editor.mouseHoldingFrom!.y),
                 }
-                this.family.setPersonLocation(personInHold[i].id, newLocation)
+                person.setLocation(newLocation)
             }
         }
     }
