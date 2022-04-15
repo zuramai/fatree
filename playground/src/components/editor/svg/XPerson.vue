@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Coordinate, MouseEventType } from '@/@types/editor';
-import { inject, onMounted, ref, type Ref } from 'vue';
-import type { XPerson } from '@/app/editor/components/XPerson';
+import { computed, inject, onMounted, reactive, ref, type Ref } from 'vue';
+import type { PersonElementPositions, XPerson } from '@/app/editor/components/XPerson';
 import type { Fatree } from '@/app';
 
 const props = defineProps<{
@@ -15,19 +15,37 @@ const emit = defineEmits(["move"])
 const image: Ref<SVGImageElement|undefined> = ref()
 
 const person = app.people.getPerson(props.id)
+
 person.$emit = emit
 
 const personEl: Ref<SVGGraphicsElement|null> = ref(null)
-const positions = person.positions
 
+const isMounted = ref(false)
 
 // Events
 const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
     person.onMouseEvent(name, e)  
 } 
 
+// The positions is somehow doesn't work if I put it in the XPerson class, so I temporarily put this here
+const positions =  computed<PersonElementPositions>(() => ({
+    image: reactive({
+            x: person.centerPosition.x - person.styles!.imageSize!.width,
+            y: person.centerPosition.y - person.styles!.imageSize!.height,
+            w: person.styles!.imageSize!.width * 2,
+            h: person.styles!.imageSize!.height * 2,
+    }),
+    name: {
+            ...person.centerPosition, 
+            y: person.centerPosition.y + person.styles!.imageSize!.height + person.styles!.fontSize! + 10// with padding
+    }
+}))
+
 onMounted(() => {
-    console.log("mounted called", personEl.value)
+    isMounted.value = true
+    console.log("mounted called", personEl)
+    console.log(person.positions);
+
     person.onMounted(personEl)
     // Disable image dragging
     image.value?.addEventListener('dragstart', (e) => e.preventDefault())
@@ -55,7 +73,9 @@ onMounted(() => {
         @mousemove="e => mouseEvent(e, 'mousemove')" 
         @mouseenter="e => mouseEvent(e, 'mouseenter')"
         @mousedown="e => mouseEvent(e, 'mousedown')"
-        ref="personEl">
+        ref="personEl"
+        v-if="isMounted"
+        >
  
         <defs>
             <clipPath :id="`person-image-${index}`">
@@ -66,10 +86,10 @@ onMounted(() => {
         <!-- Image -->
         <g class="person-image">
             <image :clip-path="`url(#person-image-${index})`" 
-                    :x="positions.image.x" 
-                    :y="positions.image.y" 
-                    :width="positions.image.w"
-                    :height="positions.image.h" 
+                    :x="positions.image!.x!" 
+                    :y="positions.image!.y!" 
+                    :width="positions.image!.w!"
+                    :height="positions.image!.h!" 
                     :xlink:href="person.metadata.photo"
                     ref="image"
                     preserveAspectRatio="xMidYMid slice" draggable="false"></image>

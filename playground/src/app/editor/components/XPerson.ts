@@ -31,9 +31,9 @@ export class XPerson extends XComponent {
     }))
 
     public centerPosition: Coordinate
-    public positions: ComputedRef<PersonElementPositions>
+    public positions: {value:ComputedRef<PersonElementPositions>|null} = reactive({value: null})
 
-    private _isMounted = false
+    public isMounted: Ref<boolean> = ref<boolean>(false)
 
     private _mouseEventMap: {[key in MouseEventType]: (e: MouseEvent) => void} = {
         "click": this.onMouseClick,
@@ -48,6 +48,7 @@ export class XPerson extends XComponent {
     constructor( props: XPersonConstructor) {
         super(ComponentType.PERSON)
         this.id = props.id
+        this.isMounted = ref(false)
 
         this.metadata = {
             id: this.id,
@@ -60,12 +61,11 @@ export class XPerson extends XComponent {
         this.centerPosition = props.location
 
         this.styles = this.initStyles()
-        this.positions = this.initPersonElementPositions()
+        this.positions.value = this.initPersonElementPositions()
 
     }
 
     public onMounted(el: Ref<SVGGraphicsElement|null>) {
-        this._isMounted = true
         this.el = el
         console.log(el.value)
         if(el.value !== null)
@@ -80,12 +80,12 @@ export class XPerson extends XComponent {
 
     public initPersonElementPositions() {
         return computed<PersonElementPositions>(() => ({
-            image: {
+            image: reactive({
                     x: this.centerPosition.x - this.styles!.imageSize!.width,
                     y: this.centerPosition.y - this.styles!.imageSize!.height,
                     w: this.styles!.imageSize!.width * 2,
                     h: this.styles!.imageSize!.height * 2,
-            },
+            }),
             name: {
                     ...this.centerPosition, 
                     y: this.centerPosition.y + this.styles!.imageSize!.height + this.styles!.fontSize! + 10// with padding

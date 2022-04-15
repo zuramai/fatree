@@ -12,13 +12,12 @@ import { v4 as uuidv4 } from 'uuid';
 import type { Fatree } from '@/app';
 
 // For development purpose
-const family = useFamilyStore()
 const app = inject<Fatree>("app")!
 
 app.people.addPerson({
-    name: "Saugi",
-    location: {x: 0, y: 0},
-    photo: JaneDoeImg,
+    name: "John Xina",
+    location: {x: 300, y: 300},
+    photo: JohnDoeImg,
 })
 
 let ids = [uuidv4(), uuidv4(), uuidv4()]
