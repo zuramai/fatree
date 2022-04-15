@@ -13,16 +13,6 @@ export const useFamilyStore = defineStore('family', {
         }
     },
     getters: {
-        filterPeople(state) {
-            return (name: string) => {
-                return Object.values(state.people).filter(person => person.name.toLowerCase().includes(name.toLowerCase()))
-            } 
-        },
-        filterPeopleByState(state) {
-            return (s: keyof ComponentState) => {
-                return Object.values(state.people).filter(person => person.state[s] == true)
-            } 
-        },
         // getPerson(state) {
         //     return (personId: string): Person => {
         //         return state.people[personId] ?? null
@@ -45,10 +35,6 @@ export const useFamilyStore = defineStore('family', {
             })
         },
         
-        movePerson(i: number, amount: Partial<Coordinate>,) {
-            this.people[i].position.x += amount.x ?? 0
-            this.people[i].position.y += amount.y ?? 0
-        }
     }
 })
 if (import.meta.hot) {

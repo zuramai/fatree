@@ -1,34 +1,36 @@
 <script lang="ts" setup>
 import Collapse from "@/components/collapse/Collapse.vue"
-import { computed, reactive, ref } from "vue";
+import { computed, inject, reactive, ref } from "vue";
 import FamilyRow from "@/components/family/FamilyRow.vue";
 import XInput from "@/components/forms/XInput.vue"
 import { useFamilyStore } from "@/stores/family";
 import XButton from "@/components/button/XButton.vue";
 import XModal from "@/components/modal/XModal.vue";
-import type { Person } from "@/@types/family";
 import { readImage } from "@/utils"
+import type { Fatree } from "@/app";
+import type { PersonMetadataInterface } from "@/@types/person";
+import type { XPersonConstructor } from "@/app/editor/components/XPerson";
 
+const app = inject<Fatree>("app")!
 const family = useFamilyStore()
 const searchPerson = ref('')
-const filteredFamily = computed(() => family.filterPeople(searchPerson.value)) 
-
+const filteredFamily = computed(() => app.people.filterPeopleByName(searchPerson.value)) 
 
 const isModalAddOpen = ref(false)
-const addPerson = reactive<Person>({
+const addPerson = reactive<Omit<XPersonConstructor, "id">>({
     name: '',
-    img: '',
-    position: {x: 0, y: 0}
+    photo: '',
+    location: {x:300,y:300}
 })
 const executeAddPerson = () => {
     isModalAddOpen.value = false 
     console.log("added")
-    family.addPerson(addPerson)
+    app.people.addPerson(addPerson)
 }
 
 const onAddImageChange = (files: FileList) => {
     readImage(files)
-        .then(res => addPerson.img = (res as string))
+        .then(res => addPerson.photo = (res as string))
         .catch(err => console.log(err))
 }
 
@@ -55,8 +57,8 @@ const onAddImageChange = (files: FileList) => {
             <!-- Family lists goes here -->
             <div class="family-members mb-2">
                 <family-row v-for="member in filteredFamily" 
-                    :image="member.img"
-                    :name="member.name">
+                    :image="member.metadata.photo"
+                    :name="member.metadata.name">
                 </family-row>
 
                 <p v-if="!filteredFamily.length" class="text-center text-zinc-500">
@@ -77,9 +79,9 @@ const onAddImageChange = (files: FileList) => {
         <template #modal-body>
             <x-input size="md" label="Name" v-model="addPerson.name"></x-input>
             <x-input size="md" label="Photo" type="file" @change="onAddImageChange"></x-input>
-            <div v-if="addPerson.img" class="mt-2">
+            <div v-if="addPerson.photo" class="mt-2">
                 <p>Image preview:</p>
-                <img :src="addPerson.img" :alt="`Photo preview for ${addPerson.name}`" class="w-32 h-32">
+                <img :src="addPerson.photo" :alt="`Photo preview for ${addPerson.name}`" class="w-32 h-32">
             </div>
         </template>        
         <template #modal-footer>

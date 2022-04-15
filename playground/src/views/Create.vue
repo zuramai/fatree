@@ -19,67 +19,11 @@ app.people.addPerson({
     name: "Saugi",
     location: {x: 0, y: 0},
     photo: JaneDoeImg,
-    id: uuidv4()
 })
 
 let ids = [uuidv4(), uuidv4(), uuidv4()]
 onBeforeMount(() => { 
-    family.people = {
-        [ids[0]]:{
-            id: ids[0],
-            type: "person",
-            name: "Jane Doe",
-            img: JaneDoeImg,
-            position: {
-                x: 700,
-                y: 300
-            },
-            styles: {
-                imageSize: { width: 75, height:75 },
-            },
-            state: {
-                isActive: false,
-                isDragging: false,
-                isHovered: false 
-            }
-        },
-        [ids[1]]: {
-            id: ids[1],
-            name: "John Doe",
-            img: JohnDoeImg,
-            type: "person",
-            position: {
-                x: 300,
-                y: 300
-            },
-            styles: {
-                imageSize: { width: 75, height:75 },
-            },
-            state: {
-                isActive: false,
-                isDragging: false,
-                isHovered: false 
-            }
-        },
-        [ids[2]]: {
-            id: ids[2],
-            name: "Anak",
-            img: AnakImg,
-            type: "person",
-            position: {
-                x: 500,
-                y: 600
-            },
-            styles: {
-                imageSize: { width: 75, height:75 },
-            },
-            state: {
-                isActive: false,
-                isDragging: false,
-                isHovered: false 
-            }
-        },
-    }
+ 
 })
 
 

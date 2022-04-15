@@ -58,7 +58,7 @@ export class Fatree {
     private onMouseMove(e: MouseEvent) {
         this.editor.setMousePosition(e.clientX, e.clientY)
 
-        let personInHold = this.family.filterPeopleByState("isActive")
+        let personInHold = this.people.filterPeopleByState("isActive", true)
 
         if(this.editor.isMouseDown) {
             // Move all `isDragging` people
