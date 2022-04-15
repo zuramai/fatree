@@ -1,5 +1,4 @@
-import type { ComponentState } from "./component"
-import type { Coordinate, Size } from "./editor"
+import type {  Size } from "./editor"
 
 export interface PersonStyles {
     fontSize: number

@@ -82,7 +82,10 @@ export class Fatree {
     private onMouseDown(e: MouseEvent) {
         console.log("EVENT FROM EDITOR")
         this.editor.isMouseDown = true
-        Object.keys(this.family.people).forEach(id => this.family.people[id].state.startDraggingAt = this.family.people[id].position)
+        Object.keys(this.people.people).forEach(id => {
+            let person = this.people.getPerson(id)
+            person.state.startDraggingAt = person.centerPosition
+        })
         this.editor.mouseHoldingFrom = this.editor.mousePosition
     }
 

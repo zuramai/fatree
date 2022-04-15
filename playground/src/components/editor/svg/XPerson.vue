@@ -28,7 +28,7 @@ const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
 
 onMounted(() => {
     console.log("mounted called", personEl.value)
-
+    person.onMounted(personEl)
     // Disable image dragging
     image.value?.addEventListener('dragstart', (e) => e.preventDefault())
 })

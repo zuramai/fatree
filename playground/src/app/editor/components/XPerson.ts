@@ -33,7 +33,9 @@ export class XPerson extends XComponent {
     public centerPosition: Coordinate
     public positions: ComputedRef<PersonElementPositions>
 
-    private mouseEventMap: {[key in MouseEventType]: (e: MouseEvent) => void} = {
+    private _isMounted = false
+
+    private _mouseEventMap: {[key in MouseEventType]: (e: MouseEvent) => void} = {
         "click": this.onMouseClick,
         "mouseover": this.onMouseOver,
         "mouseup": this.onMouseUp,
@@ -43,7 +45,7 @@ export class XPerson extends XComponent {
         "mousedown": this.onMouseDown,
     }
 
-    constructor(props: XPersonConstructor) {
+    constructor( props: XPersonConstructor) {
         super(ComponentType.PERSON)
         this.id = props.id
 
@@ -60,14 +62,14 @@ export class XPerson extends XComponent {
         this.styles = this.initStyles()
         this.positions = this.initPersonElementPositions()
 
-
     }
 
-    public onMounted(el: SVGGraphicsElement) {
-        console.log(el)
-        this.el = ref(el)
-        console.log(this.el.value)
-        this.setBBox()
+    public onMounted(el: Ref<SVGGraphicsElement|null>) {
+        this._isMounted = true
+        this.el = el
+        console.log(el.value)
+        if(el.value !== null)
+            this.setBBox(el)
     }
 
     public initStyles(): PersonStyles {
@@ -98,7 +100,7 @@ export class XPerson extends XComponent {
     
     public onMouseEvent(eventType: MouseEventType, e: MouseEvent) {
         let el = e.target as SVGGraphicsElement
-        this.mouseEventMap[eventType].bind(this)(e)
+        this._mouseEventMap[eventType].bind(this)(e)
         el.style.cursor = "pointer"
     }
 
@@ -120,17 +122,17 @@ export class XPerson extends XComponent {
         }
 
         // Set active state for this component
-        this.family.setPersonState(this.id, "isActive", !this.state.isActive)
+        this.state.isActive = !this.state.isActive
     }
     
     private onMouseUp(e: MouseEvent) {
     }
 
     private onMouseEnter(e: MouseEvent) {
-        this.family.setPersonState(this.id, "isHovered", true)
+        this.state.isHovered = true
     }
 
     private onMouseLeave(e: MouseEvent) {
-        this.family.setPersonState(this.id, "isHovered", false)
+        this.state.isHovered = false
     }
 }

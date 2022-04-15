@@ -32,9 +32,7 @@ const emit = defineEmits(['update:modelValue', 'change'])
 
 onBeforeMount(() => {
     let uid = 0;
-    let uuid = uid.toString();
     uid += 1;
-    console.log(uuid)
 })
 
 const onChange = (e: Event) => {

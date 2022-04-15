@@ -9,8 +9,8 @@ export class XComponent implements ComponentInterface {
         isHovered:false,
         isDragging:false,
     })
-    public el: Ref<SVGGraphicsElement|null|undefined> = ref()
-    public bbox: Ref<DOMRect|undefined> = ref()!
+    public el: any 
+    public bbox: Ref<Partial<DOMRect>> = ref({})
     
     constructor(type: ComponentType) {
         this.type = type
@@ -21,7 +21,12 @@ export class XComponent implements ComponentInterface {
         component: {x: 0, y: 0}
     }
 
-    public setBBox() {
-        this.bbox.value = this.el.value!.getBBox()
+    public setBBox(el?: Ref<SVGGraphicsElement|null>) {
+        if(el) {
+            this.bbox.value =  el.value!.getBBox()!
+            this.el = ref(el)
+        } else {
+            this.bbox.value = this.el.getBBox()!
+        }
     }
 }
