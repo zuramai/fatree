@@ -7,13 +7,15 @@ import XPerson from "./svg/XPerson.vue"
 import {MouseUtils} from "@/app/utils"
 import { useEditorStore } from "@/stores/editor";
 import type { Fatree } from "@/app";
+import { useAppStore } from "@/stores/app";
 
 const editor = useEditorStore()
 const family = useFamilyStore()
 
 
 // Storing mouse events state
-const app = inject<Fatree>("app")!
+const appStore = useAppStore()
+const app = appStore.fatree
 const svg = ref()
 
 onMounted(() => {

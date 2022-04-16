@@ -10,9 +10,11 @@ import AnakImg from "@/assets/images/anak.png"
 import { inject, onBeforeMount, onMounted } from 'vue';
 import { v4 as uuidv4 } from 'uuid';
 import type { Fatree } from '@/app';
+import { useAppStore } from '@/stores/app';
 
 // For development purpose
-const app = inject<Fatree>("app")!
+const appStore = useAppStore()
+const app = appStore.fatree
 
 app.people.addPerson({
     name: "John Xina",

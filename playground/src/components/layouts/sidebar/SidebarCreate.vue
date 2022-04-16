@@ -10,8 +10,10 @@ import { readImage } from "@/utils"
 import type { Fatree } from "@/app";
 import type { PersonMetadataInterface } from "@/@types/person";
 import type { XPersonConstructor } from "@/app/editor/components/XPerson";
+import { useAppStore } from "@/stores/app";
 
-const app = inject<Fatree>("app")!
+const appStore = useAppStore()
+const app = appStore.fatree
 const family = useFamilyStore()
 const searchPerson = ref('')
 const filteredFamily = computed(() => app.people.filterPeopleByName(searchPerson.value)) 

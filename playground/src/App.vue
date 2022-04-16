@@ -3,9 +3,10 @@ import {  RouterView } from 'vue-router'
 import Sidebar from "@/components/layouts/sidebar/Sidebar.vue"
 import { provide } from 'vue';
 import { createFatree } from './app';
+import { useAppStore } from './stores/app';
 
-const fatree = createFatree()
-provide('app', fatree)
+const app = useAppStore()
+
 
 </script>
 
