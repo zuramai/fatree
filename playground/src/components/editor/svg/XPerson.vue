@@ -9,17 +9,16 @@ const props = defineProps<{
     index: number
 }>()
 
+// Inject Fatree instance
 const app = inject<Fatree>("app")!
-
-const emit = defineEmits(["move"])
-const image: Ref<SVGImageElement|undefined> = ref()
-
 const person = app.people.getPerson(props.id)
-
-person.$emit = emit
-
 const personEl: Ref<SVGGraphicsElement|null> = ref(null)
 
+// Emits
+const emit = defineEmits(["move"])
+person.$emit = emit
+
+// States
 const isMounted = ref(false)
 
 // Events
@@ -43,12 +42,7 @@ const positions =  computed<PersonElementPositions>(() => ({
 
 onMounted(() => {
     isMounted.value = true
-    console.log("mounted called", personEl)
-    console.log(person.positions);
-
     person.onMounted(personEl)
-    // Disable image dragging
-    image.value?.addEventListener('dragstart', (e) => e.preventDefault())
 })
 </script>
 <template>
@@ -93,6 +87,10 @@ onMounted(() => {
                     :xlink:href="person.metadata.photo"
                     ref="image"
                     preserveAspectRatio="xMidYMid slice" draggable="false"></image>
+
+            <!-- Transparent circle to cover up the actual image so the image wouldn't be ghost dragged -->
+            <circle id='top' :cx="person.centerPosition.x" :cy="person.centerPosition.y" :r="person.styles!.imageSize!.width" stroke="0" fill="transparent"/>
+
         </g>
 
         <!-- Name -->
