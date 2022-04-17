@@ -19,3 +19,15 @@ export interface PersonMetadataInterface {
     photo: string
     
 }
+
+export interface XPersonConstructor {
+    id: string
+    name: string
+    photo: string
+    location: Coordinate
+}
+
+export interface PersonElementPositions {
+    image: Coordinate
+    name: Coordinate
+}

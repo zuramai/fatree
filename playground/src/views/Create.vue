@@ -13,8 +13,7 @@ import type { Fatree } from '@/app';
 import { useAppStore } from '@/stores/app';
 
 // For development purpose
-const appStore = useAppStore()
-const app = appStore.fatree
+const app = useAppStore().fatree
 
 app.people.addPerson({
     name: "John Xina",

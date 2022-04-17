@@ -49,11 +49,13 @@ export class Fatree {
 
         if(clickTarget == 'bg-grid') {
             // Clear all selected elements
-            this.family.clearAllActiveState()
+            this.people.clearAllActiveState()
         }else if(clickTarget == 'person') {
 
         }
     }
+
+    
 
     private onMouseMove(e: MouseEvent) {
         this.editor.setMousePosition(e.clientX, e.clientY)

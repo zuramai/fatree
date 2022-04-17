@@ -5,7 +5,7 @@ import { provide } from 'vue';
 import { createFatree } from './app';
 import { useAppStore } from './stores/app';
 
-const app = useAppStore()
+const app = useAppStore().fatree
 
 
 </script>

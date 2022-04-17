@@ -14,8 +14,7 @@ const family = useFamilyStore()
 
 
 // Storing mouse events state
-const appStore = useAppStore()
-const app = appStore.fatree
+const app = useAppStore().fatree
 const svg = ref()
 
 onMounted(() => {
