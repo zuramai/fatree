@@ -4,12 +4,12 @@ import { useFamilyStore } from "@/stores/family"
 import { computed, onMounted, ref } from "vue"
 import type { XLine } from "./editor/components/XLine"
 import type { XPerson } from "./editor/components/XPerson"
-import { FatreeLines } from "./modules/fatreeLines"
-import { FatreePeople } from "./modules/fatreePeople"
+import { FatreeLines } from "./modules/FLines"
+import { FPeople } from "./modules/FPeople"
 import { MouseUtils } from "./utils"
 
 export class Fatree {
-    public people: FatreePeople = new FatreePeople
+    public people: FPeople = new FPeople
     public lines: FatreeLines = new FatreeLines
     public family = useFamilyStore()
     public editor = useEditorStore()
@@ -43,6 +43,13 @@ export class Fatree {
         mouseEventMap[name].call(this,e)
     }
 
+    public connectingMode() {
+        
+    }
+
+    public connectPeople(person1: XPerson, person2: XPerson) {
+
+    }
     
     private onMouseClick(e: MouseEvent) {
         let clickTarget = MouseUtils.getMouseTarget(e)
@@ -54,8 +61,6 @@ export class Fatree {
 
         }
     }
-
-    
 
     private onMouseMove(e: MouseEvent) {
         this.editor.setMousePosition(e.clientX, e.clientY)

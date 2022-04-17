@@ -7,7 +7,7 @@ import { reactive } from "vue";
 import type { ComponentState } from "@/@types/component";
 import type { XPersonConstructor } from "@/@types/person";
 
-export class FatreePeople {
+export class FPeople {
     public people: {[id: string]: XPerson} = reactive({})
     
     addPerson(data: Omit<XPersonConstructor, "id">) {
