@@ -1,15 +1,14 @@
 import type { Coordinate } from "@/@types/editor";
 import { useEditorStore } from "@/stores/editor";
 import { useFamilyStore } from "@/stores/family";
-import { XPerson, type XPersonConstructor } from "../editor/components/XPerson";
+import { XPerson } from "../editor/components/XPerson";
 import { v4 as uuidv4 } from 'uuid';
 import { reactive } from "vue";
 import type { ComponentState } from "@/@types/component";
+import type { XPersonConstructor } from "@/@types/person";
 
-export class FatreePeople {
+export class FPeople {
     public people: {[id: string]: XPerson} = reactive({})
-    public family = useFamilyStore()
-    public editor = useEditorStore()
     
     addPerson(data: Omit<XPersonConstructor, "id">) {
         let person = new XPerson({
@@ -39,6 +38,7 @@ export class FatreePeople {
     filterPeopleByName(name: string) {
         return Object.values(this.people).filter(person => person.metadata.name.includes(name))
     }
+
     filterPeopleById(ids: string[]) {
         let people = []
         for(let i = 0; i < ids.length; i++) {
@@ -49,5 +49,11 @@ export class FatreePeople {
 
     filterPeopleByState<T extends keyof ComponentState>(s: T, v: ComponentState[T]) {
         return Object.values(this.people).filter(person => person.state[s] == v)
+    }
+
+    clearAllActiveState() {
+        Object.keys(this.people).forEach(personId => {
+            this.getPerson(personId).state.isActive = false
+        })
     }
 }

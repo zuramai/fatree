@@ -1,27 +1,15 @@
 import { ComponentType } from "@/@types/component";
 import type { Coordinate, MouseEventArgs, MouseEventType } from "@/@types/editor";
-import type { PersonMetadataInterface, PersonStyles } from "@/@types/person"
+import type { PersonElementPositions, PersonMetadataInterface, PersonStyles, XPersonConstructor } from "@/@types/person"
+import { useAppStore } from "@/stores/app";
 import { useEditorStore } from "@/stores/editor";
 import { useFamilyStore } from "@/stores/family"
 import { computed, reactive, ref, watch, type ComputedRef, type Ref } from "vue";
 import { XComponent } from "./XComponent";
 
-export interface XPersonConstructor {
-    id: string
-    name: string
-    photo: string
-    location: Coordinate
-}
-
-export interface PersonElementPositions {
-    image: Coordinate
-    name: Coordinate
-}
 
 export class XPerson extends XComponent {
     public id: string
-    public family
-    public editor
     public metadata: PersonMetadataInterface
     public $emit: any
     public styles?: Partial<PersonStyles>
@@ -56,8 +44,6 @@ export class XPerson extends XComponent {
             name: props.name,
         },
         
-        this.editor = useEditorStore()
-        this.family = useFamilyStore()
         this.centerPosition = props.location
 
         this.styles = this.initStyles()
@@ -73,8 +59,9 @@ export class XPerson extends XComponent {
     }
 
     public initStyles(): PersonStyles {
+        const app = useAppStore().fatree
         return reactive({
-            ...this.editor.options.defaultStyles
+            ...app.editor.options.defaultStyles
         })
     }
 
@@ -116,9 +103,10 @@ export class XPerson extends XComponent {
     }
     
     private onMouseClick(e: MouseEvent) {
-       
+        const app = useAppStore().fatree
+        
         if(!e.ctrlKey) {
-            this.family.clearAllActiveState()
+            app.people.clearAllActiveState()
         }
 
         // Set active state for this component

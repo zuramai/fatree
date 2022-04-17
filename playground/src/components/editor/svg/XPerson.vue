@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { Coordinate, MouseEventType } from '@/@types/editor';
 import { computed, inject, onMounted, reactive, ref, type Ref } from 'vue';
-import type { PersonElementPositions, XPerson } from '@/app/editor/components/XPerson';
 import type { Fatree } from '@/app';
 import { useAppStore } from '@/stores/app';
+import type { PersonElementPositions } from '@/@types/person';
 
 const props = defineProps<{
     id: string,
@@ -11,8 +11,7 @@ const props = defineProps<{
 }>()
 
 // Inject Fatree instance
-const appStore = useAppStore()
-const app = appStore.fatree
+const app = useAppStore().fatree
 const person = app.people.getPerson(props.id)
 const personEl: Ref<SVGGraphicsElement|null> = ref(null)
 
