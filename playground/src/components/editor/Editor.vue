@@ -8,7 +8,6 @@ import {MouseUtils} from "@/app/utils"
 import { useEditorStore } from "@/stores/editor";
 import type { Fatree } from "@/app";
 import { useAppStore } from "@/stores/app";
-
 const editor = useEditorStore()
 const family = useFamilyStore()
 
@@ -23,6 +22,7 @@ onMounted(() => {
 </script>
 <template>
 <div class="editor-area">
+	<editor-topbar></editor-topbar>
 	<svg id="editor" 
 		ref="svg" 
 		width="100%" 
