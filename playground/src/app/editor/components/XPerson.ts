@@ -2,9 +2,7 @@ import { ComponentType } from "@/@types/component";
 import type { Coordinate, MouseEventArgs, MouseEventType } from "@/@types/editor";
 import type { PersonElementPositions, PersonMetadataInterface, PersonStyles, XPersonConstructor } from "@/@types/person"
 import { useAppStore } from "@/stores/app";
-import { useEditorStore } from "@/stores/editor";
-import { useFamilyStore } from "@/stores/family"
-import { computed, reactive, ref, watch, type ComputedRef, type Ref } from "vue";
+import { computed, reactive, ref,  type ComputedRef, type Ref } from "vue";
 import { XComponent } from "./XComponent";
 
 

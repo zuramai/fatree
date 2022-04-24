@@ -1,5 +1,4 @@
 import type { Coordinate } from "@/@types/editor";
-import { useEditorStore } from "@/stores/editor";
 import { useFamilyStore } from "@/stores/family";
 import { XPerson } from "../editor/components/XPerson";
 import { v4 as uuidv4 } from 'uuid';
