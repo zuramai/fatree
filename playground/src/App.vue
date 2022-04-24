@@ -14,11 +14,11 @@ let $toast = c?.appContext.config.globalProperties.$toast
 
 const pageWrapper = ref<HTMLDivElement | null>(null)
 
-onMounted(() => {
-  pageWrapper.value?.addEventListener('click', () => {
-    let toast = $toast({text:"anjir", bg: 'white', textAlign: 'center'})
-  })
-})
+// onMounted(() => {
+//   pageWrapper.value?.addEventListener('click', () => {
+//     let toast = $toast({text:"anjir", bg: 'white', textAlign: 'center'})
+//   })
+// })
 </script>
 
 <template>

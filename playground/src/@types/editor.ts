@@ -43,7 +43,6 @@ export interface EditorRootState {
      */
     mouseHoldingFrom: Coordinate
 
-    isMouseDown: boolean
 
     /**
      * Currently active component

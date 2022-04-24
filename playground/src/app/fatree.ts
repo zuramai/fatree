@@ -1,9 +1,8 @@
-import type { Coordinate, MouseEventType } from "@/@types/editor"
-import { useEditorStore } from "@/stores/editor"
+import type {  MouseEventType } from "@/@types/editor"
 import { useFamilyStore } from "@/stores/family"
-import { computed, onMounted, ref } from "vue"
-import type { XLine } from "./editor/components/XLine"
+import { onMounted, reactive } from "vue"
 import type { XPerson } from "./editor/components/XPerson"
+import { Editor } from "./editor/editor"
 import { FatreeLines } from "./modules/FLines"
 import { FPeople } from "./modules/FPeople"
 import { MouseUtils } from "./utils"
@@ -12,10 +11,11 @@ export class Fatree {
     public people: FPeople = new FPeople
     public lines: FatreeLines = new FatreeLines
     public family = useFamilyStore()
-    public editor = useEditorStore()
+    public editor: Editor
 
     constructor() {
         onMounted(() => this.onMounted())
+        this.editor = reactive(new Editor)
     }
 
     setSVG(svg: SVGGraphicsElement|null) {
@@ -43,7 +43,7 @@ export class Fatree {
         mouseEventMap[name].call(this,e)
     }
 
-    public connectingMode() {
+    setMode(mode: string) {
         
     }
 
@@ -68,13 +68,14 @@ export class Fatree {
         let personInHold = this.people.filterPeopleByState("isActive", true)
 
         if(this.editor.isMouseDown) {
+            console.log("editor on mouse down")
             // Move all `isDragging` people
             for(let i = 0; i < personInHold.length; i++) {
                 let person = this.people.getPerson(personInHold[i].id)
         
                 let newLocation = {
-                    x: person!.state.startDraggingAt!.x + (this.editor.mousePosition.x - this.editor.mouseHoldingFrom!.x),
-                    y: person!.state.startDraggingAt!.y + (this.editor.mousePosition.y - this.editor.mouseHoldingFrom!.y),
+                    x: person!.state.startDraggingAt!.x + (this.editor.mousePosition.x - this.editor.mouseHoldingFrom.x),
+                    y: person!.state.startDraggingAt!.y + (this.editor.mousePosition.y - this.editor.mouseHoldingFrom.y),
                 }
                 person.setLocation(newLocation)
             }

@@ -1,0 +1,9 @@
+.editor__topbar {
+    position: absolute;
+    background-color: white;
+    left: 50%;
+    top: 1rem;
+    box-shadow: 2px 10px 30px rgba(0, 0, 0, 0.212);
+    transform: translateX(-50%);
+    width: clamp(300px, 80%, 1200px)
+}

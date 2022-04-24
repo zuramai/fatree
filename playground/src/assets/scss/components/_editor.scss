@@ -1,11 +1,11 @@
 .editor-area {
     width: 100%;
     flex: 1;
+    position: relative;
 }
 #editor {
     width: 100%;
 }
-
 .person {
     user-select: none;
 }

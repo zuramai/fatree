@@ -5,12 +5,8 @@ import { useFamilyStore } from "@/stores/family";
 import { computed, inject, onMounted, provide, reactive, ref } from "vue";
 import XPerson from "./svg/XPerson.vue"
 import {MouseUtils} from "@/app/utils"
-import { useEditorStore } from "@/stores/editor";
 import type { Fatree } from "@/app";
 import { useAppStore } from "@/stores/app";
-const editor = useEditorStore()
-const family = useFamilyStore()
-
 
 // Storing mouse events state
 const app = useAppStore().fatree
