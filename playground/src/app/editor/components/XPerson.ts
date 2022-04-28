@@ -16,7 +16,6 @@ export class XPerson extends XComponent {
         fill: this.state.isHovered ? "#eee" : "transparent"
     }))
 
-    public centerPosition: Coordinate
     public positions: {value:ComputedRef<PersonElementPositions>|null} = reactive({value: null})
 
     public isMounted: Ref<boolean> = ref<boolean>(false)

@@ -10,7 +10,9 @@ export class XComponent implements ComponentInterface {
         isDragging:false,
     })
     public el: any 
+    public connections: Connection[] = []
     public bbox: Ref<Partial<DOMRect>> = ref({})
+    public centerPosition: Coordinate = { x: 0, y: 0 }
     
     constructor(type: ComponentType) {
         this.type = type

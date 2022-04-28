@@ -1,20 +1,21 @@
 import type {  MouseEventType } from "@/@types/editor"
-import { useFamilyStore } from "@/stores/family"
 import { onMounted, reactive } from "vue"
 import type { XPerson } from "./editor/components/XPerson"
 import { Editor } from "./editor/editor"
-import { FatreeLines } from "./modules/FLines"
+import { FConnections } from "./modules/FConnections"
+import { FLines } from "./modules/FLines"
 import { FPeople } from "./modules/FPeople"
 import { MouseUtils } from "./utils"
+import { ConnectionAs, type Connection } from "@/@types/family";
+import { XConnection } from "./editor/abstracts/XConnection"
 
 export class Fatree {
     public people: FPeople = new FPeople
-    public lines: FatreeLines = new FatreeLines
-    public family = useFamilyStore()
+    public lines: FLines = new FLines
+    public connections: Record<string, XConnection> = reactive({})
     public editor: Editor
 
     constructor() {
-        onMounted(() => this.onMounted())
         this.editor = reactive(new Editor)
     }
 
@@ -23,10 +24,6 @@ export class Fatree {
             throw new Error('SVG element not found')
 
         this.editor.svg = svg
-    }
-
-    onMounted() {
-        this.family = useFamilyStore()
     }
 
     onMouseEvent(e: MouseEvent, name: MouseEventType) {
@@ -47,8 +44,19 @@ export class Fatree {
         
     }
 
-    public connectPeople(person1: XPerson, person2: XPerson) {
+    public connectPeople(person1: XPerson, person2: XPerson, as: ConnectionAs = ConnectionAs.SPOUSE) {
+        let line = this.lines.addLine({
+            from: person1,
+            to: person2,
+            options: {
+                type: "straight"
+            }
+        })
 
+        let connection  = new XConnection(person1, person2, line, as)
+        this.connections[connection.id] = connection
+
+        return line
     }
     
     private onMouseClick(e: MouseEvent) {
@@ -68,7 +76,7 @@ export class Fatree {
         let personInHold = this.people.filterPeopleByState("isActive", true)
 
         if(this.editor.isMouseDown) {
-            console.log("editor on mouse down")
+            // console.log("editor on mouse down")
             // Move all `isDragging` people
             for(let i = 0; i < personInHold.length; i++) {
                 let person = this.people.getPerson(personInHold[i].id)

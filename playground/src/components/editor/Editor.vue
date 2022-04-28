@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import type { Coordinate, MouseEventType } from "@/@types/editor";
 import BackgroundGrid from "@/components/editor/BackgroundGrid.vue"
-import { useFamilyStore } from "@/stores/family";
-import { computed, inject, onMounted, provide, reactive, ref } from "vue";
+import { onMounted, ref } from "vue";
 import XPerson from "./svg/XPerson.vue"
-import {MouseUtils} from "@/app/utils"
-import type { Fatree } from "@/app";
 import { useAppStore } from "@/stores/app";
+import XLine from "./svg/XLine.vue";
 
 // Storing mouse events state
 const app = useAppStore().fatree
@@ -33,6 +31,14 @@ onMounted(() => {
         @mousedown="(e: MouseEvent) => app.onMouseEvent(e, 'mousedown')"
 	>
 	<background-grid></background-grid>
+	<g id="lines">
+		<x-line 
+			v-for="(id, i) in Object.keys(app.lines.lines)" 
+			:id="id"
+			:index="i"
+			>
+		</x-line>
+	</g>
 	<x-person 
 		v-for="(id, i) in Object.keys(app.people.people)" 
 		:id="id"

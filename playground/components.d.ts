@@ -31,6 +31,7 @@ declare module 'vue' {
     TopbarMenu: typeof import('./src/components/menu/TopbarMenu.vue')['default']
     XButton: typeof import('./src/components/button/XButton.vue')['default']
     XInput: typeof import('./src/components/forms/XInput.vue')['default']
+    XLine: typeof import('./src/components/editor/svg/XLine.vue')['default']
     XModal: typeof import('./src/components/modal/XModal.vue')['default']
     XPerson: typeof import('./src/components/editor/svg/XPerson.vue')['default']
   }
