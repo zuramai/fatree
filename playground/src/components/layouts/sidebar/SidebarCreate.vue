@@ -3,7 +3,6 @@ import Collapse from "@/components/collapse/Collapse.vue"
 import { computed, inject, reactive, ref } from "vue";
 import FamilyRow from "@/components/family/FamilyRow.vue";
 import XInput from "@/components/forms/XInput.vue"
-import { useFamilyStore } from "@/stores/family";
 import XButton from "@/components/button/XButton.vue";
 import XModal from "@/components/modal/XModal.vue";
 import { readImage } from "@/utils"
@@ -11,7 +10,6 @@ import { useAppStore } from "@/stores/app";
 import type { XPersonConstructor } from "@/@types/person";
 
 const app = useAppStore().fatree
-const family = useFamilyStore()
 const searchPerson = ref('')
 const filteredFamily = computed(() => app.people.filterPeopleByName(searchPerson.value)) 
 

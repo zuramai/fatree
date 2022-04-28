@@ -1,5 +1,4 @@
 import type { Coordinate } from "@/@types/editor"
-import { useFamilyStore } from "@/stores/family"
 
 
 let svg: SVGGraphicsElement|null = null
