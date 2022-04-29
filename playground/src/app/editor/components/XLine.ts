@@ -35,10 +35,11 @@ export class XLine extends XComponent {
             let bboxH = (this.from.bbox.value.height ?? 0)
     
             let deltaW = this.to.centerPosition.x > this.from.centerPosition.x ? bboxW : -bboxW
-            let deltaH = this.to.centerPosition.y > this.from.centerPosition.y ? bboxH : -bboxH
+            // let deltaH = this.to.centerPosition.y > this.from.centerPosition.y ? bboxH : -bboxH
+            let deltaH = 0
             
             let pos = {
-                x: this.from.centerPosition.x + deltaW,
+                x: this.from.centerPosition.x + deltaW / 2,
                 y: this.from.centerPosition.y + deltaH,
             }
             console.log(pos)
@@ -50,10 +51,11 @@ export class XLine extends XComponent {
             let bboxW = (bbox.width ?? 0)
             let bboxH = (bbox.height ?? 0)
 
-            let deltaW = this.to.centerPosition.x > this.from.centerPosition.x ? bboxW : -bboxW
-            let deltaH = this.to.centerPosition.y > this.from.centerPosition.y ? bboxH : -bboxH
+            let deltaW = this.to.centerPosition.x > this.from.centerPosition.x ? -bboxW : bboxW
+            let deltaH = 0
+
             let pos = {
-                x: this.to.centerPosition.x + deltaW,
+                x: this.to.centerPosition.x + deltaW / 2,
                 y: this.to.centerPosition.y + deltaH,
             }
             console.log(pos)
