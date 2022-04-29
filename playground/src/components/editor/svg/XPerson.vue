@@ -4,6 +4,7 @@ import { computed, inject, onMounted, reactive, ref, type Ref } from 'vue';
 import type { Fatree } from '@/app';
 import { useAppStore } from '@/stores/app';
 import type { PersonElementPositions } from '@/@types/person';
+import { watch } from 'vue';
 
 const props = defineProps<{
     id: string,
@@ -13,14 +14,11 @@ const props = defineProps<{
 // Inject Fatree instance
 const app = useAppStore().fatree
 const person = app.people.getPerson(props.id)
-const personEl: Ref<SVGGraphicsElement|null> = ref(null)
+const personEl = ref<SVGGraphicsElement|null>(null)
 
 // Emits
 const emit = defineEmits(["move"])
 person.$emit = emit
-
-// States
-const isMounted = ref(false)
 
 // Events
 const mouseEvent = (e: MouseEvent, name: MouseEventType) => {
@@ -42,8 +40,8 @@ const positions =  computed<PersonElementPositions>(() => ({
 }))
 
 onMounted(() => {
-    isMounted.value = true
-    person.onMounted(personEl)
+    console.log("mounted 1", personEl.value)
+    person.onMounted(personEl)    
 })
 </script>
 <template>
@@ -69,7 +67,6 @@ onMounted(() => {
         @mouseenter="e => mouseEvent(e, 'mouseenter')"
         @mousedown="e => mouseEvent(e, 'mousedown')"
         ref="personEl"
-        v-if="isMounted"
         >
  
         <defs>

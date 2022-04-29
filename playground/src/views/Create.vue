@@ -4,6 +4,7 @@ import Editor from '../components/editor/Editor.vue';
 import JohnDoeImg from "@/assets/images/johndoe.jpg"
 import { useAppStore } from '@/stores/app';
 import { ConnectionAs } from '@/@types/family';
+import { onMounted } from 'vue';
 
 // For development purpose
 const app = useAppStore().fatree
@@ -18,7 +19,10 @@ let wok = app.people.addPerson({
     location: {x: 700, y: 300},
     photo: "https://i.kym-cdn.com/photos/images/original/002/229/102/5c5.jpg",
 })
-app.connectPeople(xina, wok, ConnectionAs.SPOUSE)
+
+onMounted(() => {
+    app.connectPeople(xina, wok, ConnectionAs.SPOUSE)
+})
 
 </script>
 

@@ -7,7 +7,6 @@ import { XComponent } from "./XComponent";
 
 
 export class XPerson extends XComponent {
-    public id: string
     public metadata: PersonMetadataInterface
     public $emit: any
     public styles?: Partial<PersonStyles>
@@ -18,7 +17,6 @@ export class XPerson extends XComponent {
 
     public positions: {value:ComputedRef<PersonElementPositions>|null} = reactive({value: null})
 
-    public isMounted: Ref<boolean> = ref<boolean>(false)
 
     private _mouseEventMap: {[key in MouseEventType]: (e: MouseEvent) => void} = {
         "click": this.onMouseClick,
@@ -50,9 +48,11 @@ export class XPerson extends XComponent {
 
     public onMounted(el: Ref<SVGGraphicsElement|null>) {
         this.el = el
-        console.log(el.value)
+        console.log("person mounted",el.value)
+
         if(el.value !== null)
             this.setBBox(el)
+            
     }
 
     public initStyles(): PersonStyles {
@@ -80,7 +80,6 @@ export class XPerson extends XComponent {
     setLocation(location: Coordinate) {
         this.centerPosition = location
     }
-
     
     public onMouseEvent(eventType: MouseEventType, e: MouseEvent) {
         let el = e.target as SVGGraphicsElement
