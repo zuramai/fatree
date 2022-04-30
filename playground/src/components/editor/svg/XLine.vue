@@ -34,6 +34,7 @@ onMounted(() => {
     :stroke="line.options.color"
     ref="lineEl"
     :stroke-width="line.options.width"
+    fill="transparent"
     >
     </path>
 </g>

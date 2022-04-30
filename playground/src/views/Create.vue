@@ -16,7 +16,7 @@ let xina = app.people.addPerson({
 })
 let wok = app.people.addPerson({
     name: "The Wok",
-    location: {x: 700, y: 300},
+    location: {x: 700, y: 500},
     photo: "https://i.kym-cdn.com/photos/images/original/002/229/102/5c5.jpg",
 })
 
