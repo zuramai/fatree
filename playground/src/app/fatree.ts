@@ -8,6 +8,7 @@ import { FPeople } from "./modules/FPeople"
 import { MouseUtils } from "./utils"
 import { ConnectionAs, type Connection } from "@/@types/family";
 import { XConnection } from "./editor/abstracts/XConnection"
+import { LineType } from "@/@types/lines"
 
 export class Fatree {
     public people: FPeople = new FPeople
@@ -49,7 +50,7 @@ export class Fatree {
             from: person1,
             to: person2,
             options: {
-                type: "straight"
+                type: LineType.STRAIGHT
             }
         })
 

@@ -48,7 +48,6 @@ export class XPerson extends XComponent {
 
     public onMounted(el: Ref<SVGGraphicsElement|null>) {
         this.el = el
-        console.log("person mounted",el.value)
 
         if(el.value !== null)
             this.setBBox(el)

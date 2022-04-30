@@ -1,8 +1,9 @@
 import { ComponentType } from "@/@types/component";
 import type { Coordinate } from "@/@types/editor";
-import type { LineOptions, LineType, XLineConstructor } from "@/@types/lines";
+import type { LineOptions, LineType, LineTypePath, XLineConstructor } from "@/@types/lines";
 import { computed, onMounted, watch, type ComputedRef, type Ref } from "vue";
 import { XComponent } from "./XComponent";
+import LineTypes from "./line/types"
 
 export class XLine extends XComponent {
     from: XComponent
@@ -10,6 +11,11 @@ export class XLine extends XComponent {
     options: LineOptions
     fromCoordinate?: ComputedRef<Coordinate>
     toCoordinate?: ComputedRef<Coordinate>
+    types: Record<LineType, LineTypePath> = {
+        CURVED: new LineTypes.CurveLine,
+        ORTHOGONAL: new LineTypes.OrthogonalLine,
+        STRAIGHT: new LineTypes.StraightLine,
+    }
 
     constructor(data: XLineConstructor) {
         super(ComponentType.LINE)
@@ -61,6 +67,8 @@ export class XLine extends XComponent {
             console.log(pos)
             return pos
         })
+        
+        
     }
 
 
