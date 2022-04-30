@@ -8,13 +8,15 @@ export default class CurveLine implements LineTypePath {
     public getD(from: Coordinate, to: Coordinate) {
         let d: any[] = []
 
+        let yGap = Math.abs(to.y - from.y)
+
         let controlPoint1 = {
             x: to.x > from.x ? from.x + 100 : from.x - 100,
-            y: Math.abs(to.y - from.y) < 20 ? from.y : from.y-20
+            y: from.y
         } 
         let controlPoint2 = {
             x: to.x > from.x ? to.x - 100 : to.x + 100,
-            y: Math.abs(to.y - from.y) < 20 ? to.y : to.y+20
+            y: to.y
         } 
 
         d.push('M', from.x, from.y)
