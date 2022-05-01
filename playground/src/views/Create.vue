@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import SidebarCreate from '@/components/layouts/sidebar/SidebarCreate.vue';
 import Editor from '../components/editor/Editor.vue';
-import JohnDoeImg from "@/assets/images/johndoe.jpg"
+import LoidPNG from "@/assets/images/loid.png"
+import AnyaJPG from "@/assets/images/anya.jpg"
+import YorWEBP from "@/assets/images/yor.webp"
 import { useAppStore } from '@/stores/app';
 import { ConnectionAs } from '@/@types/family';
 import { onMounted } from 'vue';
@@ -9,19 +11,25 @@ import { onMounted } from 'vue';
 // For development purpose
 const app = useAppStore().fatree
 
-let xina = app.people.addPerson({
-    name: "John Xina",
-    location: {x: 600, y: 500},
-    photo: JohnDoeImg,
+let loid = app.people.addPerson({
+    name: "Loid Forger",
+    location: {x: 600, y: 300},
+    photo: LoidPNG,
 })
-let wok = app.people.addPerson({
-    name: "The Wok",
-    location: {x: 400, y: 200},
-    photo: "https://i.kym-cdn.com/photos/images/original/002/229/102/5c5.jpg",
+let yor = app.people.addPerson({
+    name: "Yor",
+    location: {x: 200, y: 300},
+    photo: YorWEBP,
+})
+let anya = app.people.addPerson({
+    name: "Anya",
+    location: {x: 400, y: 600},
+    photo: AnyaJPG,
 })
 
 onMounted(() => {
-    app.connectPeople(xina, wok, ConnectionAs.SPOUSE)
+    app.connectPeople(loid, anya, ConnectionAs.PARENT)
+    app.connectPeople(loid, yor, ConnectionAs.CHILD)
 })
 
 </script>

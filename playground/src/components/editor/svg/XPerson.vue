@@ -16,6 +16,14 @@ const app = useAppStore().fatree
 const person = app.people.getPerson(props.id)
 const personEl = ref<SVGGraphicsElement|null>(null)
 
+const svgStyles =  reactive({
+    stroke: "#999",
+    fill: "transparent",
+    padding: 20,
+    radius: 5
+})
+
+
 // Emits
 const emit = defineEmits(["move"])
 person.$emit = emit
@@ -39,6 +47,15 @@ const positions =  computed<PersonElementPositions>(() => ({
     }
 }))
 
+const rectSize = computed(() => {
+    return {
+        x: (person.bbox.value?.x ?? 0) - svgStyles.padding / 2,
+        y: (person.bbox.value?.y ?? 0) - svgStyles.padding / 2,
+        width: (person.bbox.value?.width ?? 0) + svgStyles.padding,
+        height: (person.bbox.value?.height ?? 0) + svgStyles.padding
+    }
+})
+
 onMounted(() => {
     console.log("mounted 1", personEl.value)
     person.onMounted(personEl)    
@@ -47,13 +64,14 @@ onMounted(() => {
 <template>
     <!-- A group dummy element for mouse event purpose -->
     <rect data-component="person"
-        :x="person.bbox.value?.x" 
-        :y="person.bbox.value?.y" 
-        :width="person.bbox.value?.width" 
-        :height="person.bbox.value?.height" 
-        fill="transparent"
-        v-if="person.state.isActive"
-        stroke="#666">
+        :x="rectSize.x" 
+        :y="rectSize.y" 
+        :width="rectSize.width" 
+        :height="rectSize.height" 
+        :stroke="person.state.isActive ? `#000` : svgStyles.stroke"
+        :rx="svgStyles.radius"
+        fill="white"
+        >
     </rect>
     
     <!-- The group of person's component -->
@@ -74,6 +92,7 @@ onMounted(() => {
                 <circle id='top' :cx="person.centerPosition.x" :cy="person.centerPosition.y" :r="person.styles!.imageSize!.width"/>
             </clipPath>
         </defs>
+
 
         <!-- Image -->
         <g class="person-image">

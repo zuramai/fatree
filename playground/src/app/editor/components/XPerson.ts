@@ -10,10 +10,6 @@ export class XPerson extends XComponent {
     public metadata: PersonMetadataInterface
     public $emit: any
     public styles?: Partial<PersonStyles>
-    public svgStyles = computed(() => ({
-        stroke: "#000",
-        fill: this.state.isHovered ? "#eee" : "transparent"
-    }))
 
     public positions: {value:ComputedRef<PersonElementPositions>|null} = reactive({value: null})
 
