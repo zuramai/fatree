@@ -50,7 +50,7 @@ export class Fatree {
             from: person1,
             to: person2,
             options: {
-                type: LineType.CURVED
+                type: LineType.ORTHOGONAL
             }
         })
 

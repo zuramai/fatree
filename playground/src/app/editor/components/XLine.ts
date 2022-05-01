@@ -1,6 +1,6 @@
 import { ComponentType } from "@/@types/component";
 import type { Coordinate } from "@/@types/editor";
-import type { LineOptions, LineType, LineTypePath, XLineConstructor } from "@/@types/lines";
+import { LineType, type LineOptions, type LineTypePath, type XLineConstructor } from "@/@types/lines";
 import { computed, onMounted, watch, type ComputedRef, type Ref } from "vue";
 import { XComponent } from "./XComponent";
 import LineTypes from "./line/types"
@@ -43,6 +43,8 @@ export class XLine extends XComponent {
             let deltaW = this.to.centerPosition.x > this.from.centerPosition.x ? bboxW : -bboxW
             // let deltaH = this.to.centerPosition.y > this.from.centerPosition.y ? bboxH : -bboxH
             let deltaH = 0
+
+            if(this.options.type == LineType.ORTHOGONAL) deltaW = 0
             
             let pos = {
                 x: this.from.centerPosition.x + deltaW / 2,
@@ -59,6 +61,7 @@ export class XLine extends XComponent {
 
             let deltaW = this.to.centerPosition.x > this.from.centerPosition.x ? -bboxW : bboxW
             let deltaH = 0
+            if(this.options.type == LineType.ORTHOGONAL) deltaW = 0
 
             let pos = {
                 x: this.to.centerPosition.x + deltaW / 2,

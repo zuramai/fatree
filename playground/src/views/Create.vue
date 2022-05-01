@@ -11,12 +11,12 @@ const app = useAppStore().fatree
 
 let xina = app.people.addPerson({
     name: "John Xina",
-    location: {x: 300, y: 300},
+    location: {x: 600, y: 500},
     photo: JohnDoeImg,
 })
 let wok = app.people.addPerson({
     name: "The Wok",
-    location: {x: 700, y: 500},
+    location: {x: 400, y: 200},
     photo: "https://i.kym-cdn.com/photos/images/original/002/229/102/5c5.jpg",
 })
 

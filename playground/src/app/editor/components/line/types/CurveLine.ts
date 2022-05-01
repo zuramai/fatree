@@ -6,7 +6,7 @@ export default class CurveLine implements LineTypePath {
      * Path for SVG `d` property
      */
     public getD(from: Coordinate, to: Coordinate) {
-        let d: any[] = []
+        let d: (string|number)[] = []
 
         let yGap = Math.abs(to.y - from.y)
 
