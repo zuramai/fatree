@@ -28,8 +28,9 @@ let anya = app.people.addPerson({
 })
 
 onMounted(() => {
-    app.connectPeople(loid, anya, ConnectionAs.PARENT)
-    app.connectPeople(loid, yor, ConnectionAs.CHILD)
+    app.connectPeople(ConnectionAs.PARENT, loid, anya)
+    app.connectPeople(ConnectionAs.PARENT, yor, anya)
+    app.connectPeople(ConnectionAs.SPOUSE, loid, yor)
 })
 
 </script>

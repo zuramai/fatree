@@ -1,4 +1,4 @@
-import type {  Size } from "./editor"
+import type {  Coordinate, Size } from "./editor"
 
 export interface PersonStyles {
     fontSize: number

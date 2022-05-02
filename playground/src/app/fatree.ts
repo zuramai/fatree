@@ -45,13 +45,25 @@ export class Fatree {
         
     }
 
-    public connectPeople(person1: XPerson, person2: XPerson, as: ConnectionAs = ConnectionAs.SPOUSE) {
+    public connectPeople(as: ConnectionAs = ConnectionAs.SPOUSE, person1: XPerson, person2: XPerson) {
+        
+        if(as == ConnectionAs.PARENT) {
+            // Person1 is the parent of Person2
+            person1.addChild(person2)
+            person2.addParent(person1)
+        } else if (as == ConnectionAs.CHILD) {
+            // Person1 is a child of Person2
+            person1.addParent(person2)
+            person2.addParent(person1)
+        } else {
+            // Person1 is a spouse of Person2
+            person1.addSpouse(person2)
+            person2.addSpouse(person1)
+        }
+
         let line = this.lines.addLine({
             from: person1,
             to: person2,
-            options: {
-                type: LineType.ORTHOGONAL
-            }
         })
 
         let connection  = new XConnection(person1, person2, line, as)

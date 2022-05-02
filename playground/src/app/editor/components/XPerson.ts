@@ -11,6 +11,10 @@ export class XPerson extends XComponent {
     public $emit: any
     public styles?: Partial<PersonStyles>
 
+    public parent: XPerson[] 
+    public children: XPerson[]  
+    public spouses: XPerson[] // we allow polygamy lol
+
     public positions: {value:ComputedRef<PersonElementPositions>|null} = reactive({value: null})
 
 
@@ -28,6 +32,10 @@ export class XPerson extends XComponent {
         super(ComponentType.PERSON)
         this.id = props.id
         this.isMounted = ref(false)
+
+        this.parent = reactive([])
+        this.spouses = reactive([])
+        this.children = reactive([])
 
         this.metadata = {
             id: this.id,
@@ -47,7 +55,6 @@ export class XPerson extends XComponent {
 
         if(el.value !== null)
             this.setBBox(el)
-            
     }
 
     public initStyles(): PersonStyles {
@@ -74,6 +81,23 @@ export class XPerson extends XComponent {
 
     setLocation(location: Coordinate) {
         this.centerPosition = location
+    }
+
+    addParent(person:XPerson) {
+        this.parent.push(person)
+    }
+
+    addSpouse(person:XPerson) {
+        this.spouses.push(person)
+    }
+
+    addChild(person:XPerson) {
+        this.children.push(person)
+    }
+
+    isAnOrphan() {
+        if(this.parent.length !== 2) return true
+        return false
     }
     
     public onMouseEvent(eventType: MouseEventType, e: MouseEvent) {

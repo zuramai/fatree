@@ -6,7 +6,7 @@ import { XLine } from "../editor/components/XLine";
 export class FLines {
     public lines: {[id: string]: XLine} = reactive({})
     public lineDefaultOptions: LineOptions = {
-        type: LineType.STRAIGHT,
+        type: LineType.ORTHOGONAL,
         color: "#333",
         width: 5
     }
