@@ -13,7 +13,7 @@ export class XComponent implements ComponentInterface {
     })
     public el: any 
     public connections: Connection[] = []
-    public bbox: Ref<Partial<DOMRect>> = ref({})
+    public bbox!: ComputedRef<DOMRect> 
     public centerPosition: Coordinate = { x: 0, y: 0 }
     public isMounted: Ref<boolean> = ref<boolean>(false)
     
@@ -26,12 +26,16 @@ export class XComponent implements ComponentInterface {
         component: {x: 0, y: 0}
     }
 
-    public setBBox(el?: Ref<SVGGraphicsElement|null>) {
-        if(el) {
-            this.bbox.value =  el.value!.getBBox()!
-            this.el = ref(el)
-        } else {
-            this.bbox.value = this.el.getBBox()!
-        }
+    public setElement(el: Ref<SVGGraphicsElement>, bbox: ComputedRef<DOMRect>) {
+        this.el = el
+        
+        this.bbox = bbox
+        return this.getBBox()
+    }
+
+    public getBBox() {
+        // console.log(this.bbox);
+        
+        return this.bbox
     }
 }

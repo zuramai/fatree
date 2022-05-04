@@ -8,8 +8,10 @@ export enum LineType {
     STRAIGHT = "STRAIGHT"
 } 
 
+export type LinePosition = "bottom" | "middle"
+
 export interface LineTypePath {
-    getD(from: Coordinate, to: Coordinate): string
+    getD(from: Coordinate, to: Coordinate, position?: LinePosition): string
 }
 
 export interface XLineConstructor {

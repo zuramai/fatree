@@ -45,31 +45,50 @@ export class Fatree {
         
     }
 
-    public connectPeople(as: ConnectionAs = ConnectionAs.SPOUSE, person1: XPerson, person2: XPerson) {
-        
+    public connectPeople(as: ConnectionAs = ConnectionAs.SPOUSE, person1: XPerson, person2: XPerson, person3?: XPerson) {
+        let connection
+
         if(as == ConnectionAs.PARENT) {
             // Person1 is the parent of Person2
             person1.addChild(person2)
             person2.addParent(person1)
         } else if (as == ConnectionAs.CHILD) {
-            // Person1 is a child of Person2
+            // Person3 is a child of Person1 and Person2
             person1.addParent(person2)
-            person2.addParent(person1)
+            person2.addChild(person1)
+            person3!.addChild(person1)
         } else {
             // Person1 is a spouse of Person2
             person1.addSpouse(person2)
             person2.addSpouse(person1)
         }
+        
+        return connection
+    }
+
+    public addSpouse(person1: XPerson, person2: XPerson) {
+        person1.addSpouse(person2)
+        person2.addSpouse(person1)
 
         let line = this.lines.addLine({
             from: person1,
             to: person2,
         })
 
-        let connection  = new XConnection(person1, person2, line, as)
+        let connection  = new XConnection(ConnectionAs.SPOUSE, person1, person2, line)
         this.connections[connection.id] = connection
 
-        return line
+        return connection
+    }
+
+    public addChild(relationship: XConnection, child: XPerson) {
+        relationship.line.position = "bottom"
+        let line = this.lines.addLine({
+            from: child,
+            to: relationship.line,
+        })
+        let connection  = new XConnection(ConnectionAs.SPOUSE, child, relationship, line)
+        this.connections[connection.id] = connection
     }
     
     private onMouseClick(e: MouseEvent) {

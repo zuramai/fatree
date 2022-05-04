@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Coordinate, MouseEventType } from '@/@types/editor';
-import { computed, inject, onMounted, reactive, ref, type Ref } from 'vue';
+import { computed, inject, onBeforeMount, onMounted, reactive, ref, type Ref } from 'vue';
 import type { Fatree } from '@/app';
 import { useAppStore } from '@/stores/app';
 import type { PersonElementPositions } from '@/@types/person';
@@ -14,7 +14,7 @@ const props = defineProps<{
 // Inject Fatree instance
 const app = useAppStore().fatree
 const person = app.people.getPerson(props.id)
-const personEl = ref<SVGGraphicsElement|null>(null)
+const personEl = ref<SVGGraphicsElement>()
 
 const svgStyles =  reactive({
     stroke: "#999",
@@ -48,17 +48,31 @@ const positions =  computed<PersonElementPositions>(() => ({
 }))
 
 const rectSize = computed(() => {
-    return {
-        x: (person.bbox.value?.x ?? 0) - svgStyles.padding / 2,
-        y: (person.bbox.value?.y ?? 0) - svgStyles.padding / 2,
-        width: (person.bbox.value?.width ?? 0) + svgStyles.padding,
-        height: (person.bbox.value?.height ?? 0) + svgStyles.padding
+    if(person.bbox)
+        return {
+            x: (person.bbox.value?.x ?? 0) - svgStyles.padding / 2,
+            y: (person.bbox.value?.y ?? 0) - svgStyles.padding / 2,
+            width: (person.bbox.value?.width ?? 0) + svgStyles.padding,
+            height: (person.bbox.value?.height ?? 0) + svgStyles.padding
+        }
+    else return {
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0
     }
 })
-
+onBeforeMount(() => {
+    console.log("beforeMount: "+ person.metadata.name);
+    
+})
 onMounted(() => {
-    console.log("mounted 1", personEl.value)
-    person.onMounted(personEl)    
+    let bbox = computed(() => personEl.value!.getBBox())
+    watch(() => personEl.value!, () => {
+        console.log('bbox changed')
+    })
+    person.onMounted(personEl as Ref<SVGGraphicsElement>, bbox)    
+    console.log(person.bbox);
 })
 </script>
 <template>

@@ -2,6 +2,7 @@ import { LineType, type LineOptions, type XLineConstructor } from "@/@types/line
 import { reactive } from "vue";
 import { v4 as uuidv4 } from 'uuid';
 import { XLine } from "../editor/components/XLine";
+import type { XPerson } from "../editor/components/XPerson";
 
 export class FLines {
     public lines: {[id: string]: XLine} = reactive({})
@@ -22,5 +23,16 @@ export class FLines {
         this.lines[line.id] = line
 
         return line
+    }
+
+    getLine(id: string) {
+        return this.lines[id]
+    }
+
+    getPersonLine(from: XPerson, to: XPerson) {
+        console.log(this.lines)
+        return Object.values(this.lines).find(line => {
+            return (line.from == from && line.to == to) || (line.to == from && line.from == to)
+        })
     }
 }

@@ -31,6 +31,7 @@ onMounted(() => {
         @mousedown="(e: MouseEvent) => app.onMouseEvent(e, 'mousedown')"
 	>
 	<background-grid></background-grid>
+
 	<g id="lines">
 		<x-line 
 			v-for="(id, i) in Object.keys(app.lines.lines)" 
@@ -39,12 +40,17 @@ onMounted(() => {
 			>
 		</x-line>
 	</g>
-	<x-person 
-		v-for="(id, i) in Object.keys(app.people.people)" 
-		:id="id"
-		:index="i"
-		>
-	</x-person>
+	
+	<g id="people">
+		<x-person 
+			v-for="(id, i) in Object.keys(app.people.people)" 
+			:id="id"
+			:index="i"
+			>
+		</x-person>
+	</g>
+
+
 	</svg>
 </div>
 </template>

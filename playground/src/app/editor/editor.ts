@@ -28,6 +28,7 @@ export class Editor implements EditorRootState {
 
     setSVG(svg: SVGGraphicsElement) {
         this.svg = svg
+        console.log("SVG SET!")
     }
 
     setMousePosition(clientX: number, clientY: number): Coordinate {

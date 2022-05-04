@@ -50,11 +50,10 @@ export class XPerson extends XComponent {
 
     }
 
-    public onMounted(el: Ref<SVGGraphicsElement|null>) {
-        this.el = el
-
-        if(el.value !== null)
-            this.setBBox(el)
+    public onMounted(el: Ref<SVGGraphicsElement>, bbox:ComputedRef<DOMRect>) {
+        // let bbox = computed(() => el.value.getBBox())
+        console.log("From Outside Function: ",bbox)
+        this.setElement(el, bbox)
     }
 
     public initStyles(): PersonStyles {
@@ -110,7 +109,7 @@ export class XPerson extends XComponent {
     }
 
     private onMouseMove(e: MouseEvent) {
-        this.setBBox()
+        this.getBBox()
     }
     
     private onMouseDown(e: MouseEvent) {
@@ -122,7 +121,7 @@ export class XPerson extends XComponent {
         
         if(!e.ctrlKey) {
             app.people.clearAllActiveState()
-        }
+        }   
 
         // Set active state for this component
         this.state.isActive = !this.state.isActive
