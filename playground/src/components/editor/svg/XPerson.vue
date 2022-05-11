@@ -48,12 +48,14 @@ const positions =  computed<PersonElementPositions>(() => ({
 }))
 
 const rectSize = computed(() => {
+    let bbox = personEl.value?.getBBox()
+    let centerPosition = person.centerPosition
     if(person.bbox)
         return {
-            x: (person.bbox.value?.x ?? 0) - svgStyles.padding / 2,
-            y: (person.bbox.value?.y ?? 0) - svgStyles.padding / 2,
-            width: (person.bbox.value?.width ?? 0) + svgStyles.padding,
-            height: (person.bbox.value?.height ?? 0) + svgStyles.padding
+            x: (bbox?.x ?? 0) - svgStyles.padding / 2,
+            y: (bbox?.y ?? 0) - svgStyles.padding / 2,
+            width: (bbox?.width ?? 0) + svgStyles.padding,
+            height: (bbox?.height ?? 0) + svgStyles.padding
         }
     else return {
         x: 0,

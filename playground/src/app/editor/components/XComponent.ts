@@ -35,7 +35,6 @@ export class XComponent implements ComponentInterface {
 
     public getBBox() {
         // console.log(this.bbox);
-        
         return this.bbox
     }
 }

@@ -32,56 +32,9 @@ export class XLine extends XComponent {
         let bbox = computed(() => el.value.getBBox())
         
         this.setElement(el, bbox)
-        this.initPosition()
     }
 
-    initPosition() {
-        this.fromCoordinate = computed<Coordinate>((): Coordinate => {
-            let bbox = this.getBBox() as any
-            
-            let bboxW = (bbox.width ?? 0)
-            let bboxH = (bbox.height ?? 0)
     
-            let deltaW = this.to.centerPosition.x > this.from.centerPosition.x ? bboxW : -bboxW
-            // let deltaH = this.to.centerPosition.y > this.from.centerPosition.y ? bboxH : -bboxH
-            let deltaH = 0
-
-            if(this.options.type == LineType.ORTHOGONAL) deltaW = 0
-            
-            let pos = {
-                x: this.from.centerPosition.x + deltaW / 2,
-                y: this.from.centerPosition.y + deltaH,
-            }
-            return pos
-        })
-
-        this.toCoordinate = computed<Coordinate>((): Coordinate => {
-            let pos: Coordinate;
-            let bboxFrom = this.from.getBBox()  
-            let bboxTo = this.to.getBBox()
-            
-
-            let deltaW = this.to.centerPosition.x > this.from.centerPosition.x ? -(bboxFrom.width ?? 0) : (bboxFrom.height ?? 0)
-            let deltaH = 0
-            if(this.options.type == LineType.ORTHOGONAL) deltaW = 0
-            
-
-            if(this.to.type == "line") {
-                // To the bottom of the target line
-                pos = {
-                    x: bboxTo.x + bboxTo.width/2,
-                    y: bboxTo.y + bboxTo.height
-                }
-                
-            } else {
-                pos = {
-                    x: this.to.centerPosition.x + deltaW / 2,
-                    y: this.to.centerPosition.y + deltaH,
-                }
-            }
-            return pos
-        })
-    }
 
     private draw() {
 
